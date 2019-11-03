@@ -3,7 +3,19 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  auth: {
+    clientId: "W1dkklCZ0Le14gWwsVlQK1GGv1hC6Lr7",
+    domain: "dev-wfu-vo-p.auth0.com",
+    audience: "http://localhost:4200",
+    redirect: "http://localhost:4200/home"
+  },
+  api: {
+    uri: 'http://localhost:80/LaComanda/public/'
+  },
+  recaptcha: {
+    siteKey : "6Lf08b8UAAAAAK8RH2kNOj0KoiyMsktaTS4ftqH1"
+  }
 };
 
 /*

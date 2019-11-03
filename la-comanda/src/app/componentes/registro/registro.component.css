@@ -1,0 +1,58 @@
+.example-container {
+    display: flex;
+    flex-direction: column;
+  }
+
+.example-container > * > * {
+  width: 100%;
+}
+
+.example-card {
+  max-width: 400px;
+  margin: auto;
+  margin-top: 2em;
+}
+
+.form-container{
+  margin-top: 6em !important;
+}
+
+.registro-card{
+  text-align: center;
+}
+
+a{
+  text-decoration: none;
+}
+
+p{
+  color: rgba(0, 0, 0, 0.54);
+}
+
+.inputImg{
+  margin: 3px 0 15px 0;
+  border-bottom: rgba(0, 0, 0, 0.75) solid .5px;
+  padding-bottom: 8px;
+}
+
+.back{
+  background-image: url('../../../assets/login-back.jpg');
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+re-captcha{
+  float: right;
+  margin-bottom: 15px;
+}
+
+.needs-validation{
+  margin-top: 2em;
+}
+
+.quest-card{
+  padding: 4px !important;
+  max-width: 426px;
+  margin: 0 290 0 290 !important;
+}

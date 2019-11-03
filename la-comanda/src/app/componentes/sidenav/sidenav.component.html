@@ -1,0 +1,14 @@
+<mat-sidenav-container *ngIf="isLoggedIn$ | async">
+    <mat-sidenav #sidenav mode="side" [(opened)]="opened">
+        <ul>
+            <li>1</li>
+            <li>2</li>
+            <li>3</li>
+            <li>4</li>
+        </ul>
+    </mat-sidenav>
+    <mat-sidenav-content>
+        <button mat-raised-button color="primary" (click)="opened=!opened">Menu</button>
+        <router-outlet></router-outlet>
+    </mat-sidenav-content>
+</mat-sidenav-container>

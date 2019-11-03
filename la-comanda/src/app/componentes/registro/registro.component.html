@@ -1,0 +1,49 @@
+<div class="back">
+    <mat-card class="example-card form-container">
+        <mat-card-header color="primary">
+            <mat-card-title>La Comanda</mat-card-title>
+            <mat-card-subtitle>Regístrate para realizar y seguir el estado de tus pedidos.</mat-card-subtitle>
+        </mat-card-header>
+        <!-- <img mat-card-image src="../../../assets/login-icon.jpg" alt="Photo of a Shiba Inu"> -->
+        <mat-divider></mat-divider>
+        <mat-card-content>
+            <div class="example-container">
+                <form [formGroup]="registroForm" (ngSubmit)="registro()" class="needs-validation" novalidate>
+                    <mat-form-field>
+                        <input matInput formControlName="name" type="text" class="form-control" id="name"
+                            placeholder="Ingrese su nombre completo:" required>
+                        <mat-error *ngIf="name?.invalid">{{getErrorMessage()}}</mat-error>
+                    </mat-form-field>
+                    <mat-form-field>
+                        <input matInput formControlName="username" type="text" class="form-control" id="username"
+                            placeholder="Ingrese su nombre de usuario:" required>
+                        <mat-error *ngIf="username?.invalid">{{getErrorMessage()}}</mat-error>
+                    </mat-form-field>
+                    <mat-form-field>
+                        <input matInput formControlName="password" type="password" class="form-control" id="password"
+                            placeholder="Ingrese su contraseña:" required>
+                        <mat-error *ngIf="password?.invalid">{{getErrorMessage()}}</mat-error>
+                    </mat-form-field>
+                    <div class="inputImg">
+                        <p>Imágen de perfil: </p>
+                        <input type="file" class="form-control" id="file" (change)="onFileInput($event)">
+                    </div>
+                    <div class="recaptcha">
+                        <re-captcha formControlName="recaptcha" name="captcha" required [siteKey]="siteKey">
+                        </re-captcha>
+                    </div>
+                    <button mat-raised-button color="primary" type="submit" [disabled]="!registroForm.valid"
+                        class="btn btn-primary">Registrarte</button>
+                </form>
+            </div>
+        </mat-card-content>
+    </mat-card>
+
+    <mat-card class="example-card quest-card">
+        <mat-card-content>
+            <div class="example-container registro-card">
+                <p>¿Tienes una cuenta? <a [routerLink]="['/login']">Entrar</a></p>
+            </div>
+        </mat-card-content>
+    </mat-card>
+</div>

@@ -1,0 +1,43 @@
+.example-container {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .form-container{
+    margin-top: 6em !important;
+  }
+
+.example-container > * > * {
+  width: 100%;
+}
+
+.example-card {
+  max-width: 400px;
+  margin: auto;
+  margin-top: 2em;
+}
+
+.registro-card{
+  text-align: center;
+}
+
+a{
+  text-decoration: none;
+}
+
+.back{
+  background-image: url('../../../assets/login-back.jpg');
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+.needs-validation{
+  margin-top: 2em;
+}
+
+.quest-card{
+  padding: 4px !important;
+  max-width: 426px;
+  margin: 0 290 0 290 !important;
+}

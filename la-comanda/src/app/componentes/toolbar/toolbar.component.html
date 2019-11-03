@@ -1,0 +1,15 @@
+<mat-toolbar *ngIf="isLoggedIn$ | async" color="primary">
+  <span>La Comanda</span>
+
+  <!-- This fills the remaining space of the current row -->
+  <span class="example-fill-remaining-space"></span>
+
+  <div>
+    <span><a [routerLink]="['']">Home</a></span>
+    <span><a href="#">Acerca</a></span>
+    <span><a href="#">Servicios</a></span>
+  </div>
+  <span><button mat-icon-button color="accent" (click)="logOut()">
+      <mat-icon>exit_to_app</mat-icon>
+    </button></span>
+</mat-toolbar>

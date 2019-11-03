@@ -1,0 +1,24 @@
+.spinner{
+    background-color:rgba(200, 200, 200, 0.7);
+    position: absolute;
+    height: 100%;
+    width: 100%;
+}
+
+mat-spinner{
+    margin: auto;
+    top: 40%;
+}
+
+mat-sidenav-container{
+    height: 100%;
+}
+
+mat-sidenav, mat-sidenav-content{
+    padding: 16px;
+}
+
+mat-sidenav{
+    background-color: lightcoral;
+    width: 200px;
+}

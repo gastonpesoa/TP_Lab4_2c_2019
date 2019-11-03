@@ -1,0 +1,53 @@
+import { Component, OnInit } from '@angular/core';
+import { User } from 'src/app/clases/user';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
+import { UserService } from 'src/app/servicios/user.service';
+import { Router } from '@angular/router';
+import { SpinnerService } from 'src/app/servicios/spinner.service';
+import { SnackbarService } from 'src/app/servicios/snackbar.service';
+
+
+@Component({
+  selector: 'app-login',
+  templateUrl: './login.component.html',
+  styleUrls: ['./login.component.css']
+})
+export class LoginComponent implements OnInit {
+
+
+  loginForm = new FormGroup({
+    name: new FormControl('', [Validators.required]),
+    password: new FormControl('', [Validators.required])
+  });
+
+  constructor(private toastr: ToastrService,
+    private userService: UserService,
+    private router: Router,
+    public spinner: SpinnerService,
+    public snackBar: SnackbarService) { }
+
+  login() {
+    this.spinner.showLoadingSpinner();
+    this.userService.login(this.loginForm.value.name, this.loginForm.value.password)
+      .subscribe(res => {
+        console.info("res: ", res);
+        if(res.Estado == "OK"){
+          localStorage.setItem("token", res.Token); // Store token
+          this.spinner.hideLoadingSpinner()
+          this.router.navigate(['']);
+        } else {
+          this.spinner.hideLoadingSpinner()
+          this.snackBar.openSnackBar("Usuario o contraseña incorrectos", "Cerrar");
+        }
+      });
+  }
+
+  getErrorMessage() {
+    return this.loginForm.hasError('required') ? 'Debe ingresar un valor' : '';
+  }
+
+  ngOnInit() {
+  }
+
+}
