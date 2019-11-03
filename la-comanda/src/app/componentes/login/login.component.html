@@ -10,13 +10,13 @@
             <div class="example-container">
                 <form [formGroup]="loginForm" (ngSubmit)="login()" class="needs-validation" novalidate>
                     <mat-form-field>
-                        <input matInput formControlName="name" type="text" class="form-control" id="name"
+                        <input matInput formControlName="name" type="text" class="form-control" id="name" [(ngModel)]="nombre"
                             placeholder="Ingrese su nombre de usuario:" required>
                         <mat-error *ngIf="name?.invalid">{{getErrorMessage()}}</mat-error>
                     </mat-form-field>
                     <mat-form-field>
                         <input matInput formControlName="password" type="password" class="form-control" id="password"
-                            placeholder="Ingrese su contraseña:" required>
+                        [(ngModel)]="clave" placeholder="Ingrese su contraseña:" required>
                         <mat-error *ngIf="password?.invalid">{{getErrorMessage()}}</mat-error>
                     </mat-form-field>
                     <button mat-raised-button color="primary" type="submit" [disabled]="!loginForm.valid"
@@ -33,4 +33,16 @@
             </div>
         </mat-card-content>
     </mat-card>
+
+    <mat-card class="example-card">
+        <mat-card-content>
+            <mat-select (selectionChange)="onChange($event.value)" placeholder="Usuario">
+                <mat-option *ngFor="let usuario of usuariosLogin" value={{usuario.id}}>{{usuario.nombre}}
+                </mat-option>
+            </mat-select>
+        </mat-card-content>
+    </mat-card>
+
+    
+
 </div>

@@ -46,5 +46,11 @@ Dentro del de trabajadores tenemos empleados diferenciados por
    <li>El cocinero</li>
    <li>socios​</li>
 </ul>
-<p><b>Y un breve texto de hasta 66 caracteres describiendo la experiencia (buena o mala) que tuvo en su atención.</b></p>
+<p>Y un breve texto de hasta 66 caracteres describiendo la experiencia (buena o mala) que tuvo en su atención.</p>
+</hr>
+<h3>Registro de tareas:</h3>
+</hr>
+<h4>Sprint 1: 17-10 / 24-10</h4>
+<p>Registro, Login con perfiles y pantallas</p>
+
 

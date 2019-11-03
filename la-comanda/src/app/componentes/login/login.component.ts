@@ -15,6 +15,17 @@ import { SnackbarService } from 'src/app/servicios/snackbar.service';
 })
 export class LoginComponent implements OnInit {
 
+  usuariosLogin: Array<any> = [
+    { id: 0, nombre: "admin", clave: "admin" },
+    { id: 1, nombre: "socio", clave: "socio" },
+    { id: 2, nombre: "mozo", clave: "mozo" },
+    { id: 3, nombre: "bartender", clave: "bartender" },
+    { id: 4, nombre: "cervecero", clave: "cervecero" },
+    { id: 5, nombre: "cocinero", clave: "cocinero" },
+    { id: 6, nombre: "cliente", clave: "cliente" }
+  ]
+  nombre: string;
+  clave: string;
 
   loginForm = new FormGroup({
     name: new FormControl('', [Validators.required]),
@@ -32,7 +43,7 @@ export class LoginComponent implements OnInit {
     this.userService.login(this.loginForm.value.name, this.loginForm.value.password)
       .subscribe(res => {
         console.info("res: ", res);
-        if(res.Estado == "OK"){
+        if (res.Estado == "OK") {
           localStorage.setItem("token", res.Token); // Store token
           this.spinner.hideLoadingSpinner()
           this.router.navigate(['']);
@@ -45,6 +56,14 @@ export class LoginComponent implements OnInit {
 
   getErrorMessage() {
     return this.loginForm.hasError('required') ? 'Debe ingresar un valor' : '';
+  }
+
+  onChange(id) {
+    this.nombre = this.usuariosLogin[id].nombre;
+    this.clave = this.usuariosLogin[id].clave;
+    this.loginForm.value.name = this.usuariosLogin[id].nombre;
+    this.loginForm.value.password = this.usuariosLogin[id].clave;
+    console.info("form", this.loginForm.value)
   }
 
   ngOnInit() {
