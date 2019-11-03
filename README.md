@@ -52,5 +52,8 @@ Dentro del de trabajadores tenemos empleados diferenciados por
 </hr>
 <h4>Sprint 1: 17-10 / 24-10</h4>
 <p>Registro, Login con perfiles y pantallas</p>
+<img src="./screensLaComanda/login.png" style="width:70%"/>
+</br>
+<img src="./screensLaComanda/registro.png" style="width:70%"/>
 
 
