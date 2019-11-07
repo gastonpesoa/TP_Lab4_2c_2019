@@ -5,12 +5,16 @@ import { HomeComponent } from './componentes/home/home.component';
 import { NologinGuard } from './guards/nologin.guard';
 import { LoginGuard } from './guards/login.guard';
 import { RegistroComponent } from './componentes/registro/registro.component';
+import { AltaUserComponent } from './componentes/alta-user/alta-user.component';
+import { PedidoComponent } from './componentes/pedido/pedido.component';
 
 
 const routes: Routes = [
   { path: '', component: HomeComponent, canActivate: [LoginGuard] },
+  { path: 'pedido', component: PedidoComponent, canActivate: [LoginGuard] },
   { path: 'login', component: LoginComponent, canActivate: [NologinGuard] },
   { path: 'registro', component: RegistroComponent, canActivate: [NologinGuard] },
+  { path: 'alta-usuario', component: AltaUserComponent, canActivate: [LoginGuard] },
 ];
 
 @NgModule({

@@ -2,6 +2,15 @@ import { Component, OnInit } from '@angular/core';
 import { User } from 'src/app/clases/user';
 import { FormGroup, FormControl } from '@angular/forms';
 import { UserService } from 'src/app/servicios/user.service';
+import { MesaService } from 'src/app/servicios/mesa.service';
+import { Router } from '@angular/router';
+import { SnackbarService } from 'src/app/servicios/snackbar.service';
+
+export interface Mesa {
+  codigo: string;
+  esatdo: number;
+  foto: number;
+}
 
 @Component({
   selector: 'app-home',
@@ -10,28 +19,26 @@ import { UserService } from 'src/app/servicios/user.service';
 })
 export class HomeComponent implements OnInit {
 
-  private user: User;
-  altaForm = new FormGroup({
-    nombre: new FormControl(''),
-    username: new FormControl(''),
-    password: new FormControl('')
-  });
+  mesas: Mesa[] = [];
 
-  constructor(private userService: UserService) { }
+  constructor(private mesaServ: MesaService, private router: Router, public snackBar: SnackbarService) { }
 
   ngOnInit() {
+    this.mesaServ.list().subscribe(res => {
+      console.info("mesas", res)
+      this.mesas = res;
+    })
   }
 
-  alta() {
-    console.warn(this.altaForm.value);
-    const user = new User();
-    user.username = this.altaForm.value.username;
-    user.nombre = this.altaForm.value.nombre;
-    user.password = this.altaForm.value.password;
-    user.perfil = 'socio';
-    this.userService.register(user).subscribe(res => {
-      console.info("res", res);
-    })
+  tomarMesa(mesa) {
+    if (mesa.estado == 'cerrada') {
+      this.router.navigate(['/pedido'], {
+        state: { data: mesa }
+      });
+    } else {
+      this.snackBar.openSnackBar("Seleccione una mesa disponible", "")
+    }
+
   }
 
 }

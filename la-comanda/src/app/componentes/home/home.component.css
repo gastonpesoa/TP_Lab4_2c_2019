@@ -1,0 +1,62 @@
+.container{
+    margin-top: 1em;
+}
+
+.mesa-ocupada{
+    border-radius: 10px;
+    margin-right: 3.5em;
+    padding: 0 1.5em .3em 0;
+    margin-left: 1em;
+    background: #ff6e40;
+    color:#ff4a13;
+    -webkit-box-shadow: 10px 10px 13px 0px rgba(0,0,0,0.5);
+    -moz-box-shadow: 10px 10px 13px 0px rgba(0,0,0,0.5);
+    box-shadow: 10px 10px 13px 0px rgba(0,0,0,0.5);
+}
+
+.mesa-ocupada:hover{
+    background: #ff4040;
+    transition: 1.2s;
+}
+
+.mesa-disponible{
+    border-radius: 10px;
+    margin-right: 3.5em;
+    margin-left: 1em;
+    padding: 0 1.5em .3em 0;
+    background: #69f0ae;
+    color: #00713a;
+    cursor: pointer;
+    box-shadow: 6px 6px 14px 0px rgba(0,0,0,0.5);
+}
+
+.mesa-disponible:hover{
+    background: #7bf069;
+    transition: 1.2s;
+}
+
+.img-mesa{
+    margin-right: 1em;
+    height:220px;
+    border-radius: 5px;
+}
+
+.codigo-mesa{
+    
+    position: relative;
+    bottom: 204px;
+    left: 146.5px;
+    background: #ccc;
+    padding: 5px 26px;
+}
+
+.estado-mesa{
+    
+    font-weight: 700;
+    position: relative;
+    bottom: 30px;
+    left: 50px;
+    background: #ccc;
+    padding: 5px;
+    border-radius: 13px;
+}

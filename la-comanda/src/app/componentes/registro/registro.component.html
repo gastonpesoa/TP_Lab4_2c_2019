@@ -1,7 +1,7 @@
 <div class="back">
     <mat-card class="example-card form-container">
         <mat-card-header color="primary">
-            <mat-card-title>La Comanda</mat-card-title>
+            <mat-card-title style="color: #ff6e40;">La Comanda</mat-card-title>
             <mat-card-subtitle>Regístrate para realizar y seguir el estado de tus pedidos.</mat-card-subtitle>
         </mat-card-header>
         <!-- <img mat-card-image src="../../../assets/login-icon.jpg" alt="Photo of a Shiba Inu"> -->
@@ -32,7 +32,7 @@
                         <re-captcha formControlName="recaptcha" name="captcha" required [siteKey]="siteKey">
                         </re-captcha>
                     </div>
-                    <button mat-raised-button color="primary" type="submit" [disabled]="!registroForm.valid"
+                    <button mat-raised-button color="accent" type="submit" [disabled]="!registroForm.valid"
                         class="btn btn-primary">Registrarte</button>
                 </form>
             </div>

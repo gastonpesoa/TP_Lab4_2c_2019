@@ -1,14 +1,14 @@
 <mat-sidenav-container *ngIf="isLoggedIn$ | async">
-    <mat-sidenav #sidenav mode="side" [(opened)]="opened">
-        <ul>
-            <li>1</li>
-            <li>2</li>
-            <li>3</li>
-            <li>4</li>
-        </ul>
+    <mat-sidenav #sidenav mode="over" [(opened)]="opened">
+        <mat-nav-list>
+            <mat-list-item *ngFor="let page of pages">
+                <mat-icon color="accent" matListIcon>{{page.icon}}</mat-icon>
+                <a matLine [routerLink]="page.url">{{ page.title }}</a>
+            </mat-list-item>
+        </mat-nav-list>
     </mat-sidenav>
     <mat-sidenav-content>
-        <button mat-raised-button color="primary" (click)="opened=!opened">Menu</button>
+        <button mat-raised-button color="primary" style="color:#69f0ae" (click)="opened=!opened">Menu</button>
         <router-outlet></router-outlet>
     </mat-sidenav-content>
 </mat-sidenav-container>

@@ -12,3 +12,9 @@
      color: white;
      text-decoration: none;
   }
+
+  mat-toolbar{
+      -webkit-box-shadow: 3px 13px 13px -7px rgba(0,0,0,0.48);
+      -moz-box-shadow: 3px 13px 13px -7px rgba(0,0,0,0.48);
+      box-shadow: 3px 13px 13px -7px rgba(0,0,0,0.48);
+  }

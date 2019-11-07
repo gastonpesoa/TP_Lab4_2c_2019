@@ -1,7 +1,7 @@
 <div class="back">
     <mat-card class="example-card form-container">
         <mat-card-header>
-            <mat-card-title>La Comanda</mat-card-title>
+            <mat-card-title style="color: #ff6e40;">La Comanda</mat-card-title>
             <mat-card-subtitle>Inicio de sesión</mat-card-subtitle>
         </mat-card-header>
         <!-- <img mat-card-image src="../../../assets/login-icon.jpg" alt="Photo of a Shiba Inu"> -->
@@ -19,7 +19,7 @@
                         [(ngModel)]="clave" placeholder="Ingrese su contraseña:" required>
                         <mat-error *ngIf="password?.invalid">{{getErrorMessage()}}</mat-error>
                     </mat-form-field>
-                    <button mat-raised-button color="primary" type="submit" [disabled]="!loginForm.valid"
+                    <button mat-raised-button color="warn" type="submit" [disabled]="!loginForm.valid"
                         class="btn btn-primary">Ingresar</button>
                 </form>
             </div>
@@ -29,7 +29,7 @@
     <mat-card class="example-card quest-card">
         <mat-card-content>
             <div class="example-container registro-card">
-                <p>¿No tienes una cuenta? <a [routerLink]="['/registro']">Regístrate</a></p>
+                <p>¿No tienes una cuenta? <a color="accent" [routerLink]="['/registro']">Regístrate</a></p>
             </div>
         </mat-card-content>
     </mat-card>

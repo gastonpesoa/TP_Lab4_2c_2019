@@ -1,0 +1,76 @@
+<h2>Realizá tu pedido para la {{mesa.codigo}}!</h2>
+
+<div class="container">
+    <mat-grid-list cols="2" rowHeight="150px">
+        <mat-grid-tile colspan="1" rowspan="4" style="background:#616161">
+
+            <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+                <!-- Nombre Column -->
+                <ng-container matColumnDef="nombre">
+                    <th mat-header-cell *matHeaderCellDef> Nombre </th>
+                    <td mat-cell *matCellDef="let element"> {{element.nombre}} </td>
+                </ng-container>
+                <!-- Precio Column -->
+                <ng-container matColumnDef="precio">
+                    <th mat-header-cell *matHeaderCellDef> Precio </th>
+                    <td mat-cell *matCellDef="let element"> {{element.precio}} </td>
+                </ng-container>
+                <!-- Sector Column -->
+                <ng-container matColumnDef="sector">
+                    <th mat-header-cell *matHeaderCellDef> Sector </th>
+                    <td mat-cell *matCellDef="let element"> {{element.sector}} </td>
+                </ng-container>
+                <!-- Radio Column -->
+                <ng-container matColumnDef="select">
+                    <th mat-header-cell *matHeaderCellDef> Selecciona una opción </th>
+                    <mat-radio-group>
+                        <td mat-cell *matCellDef="let element">
+                            <mat-radio-button [value]="element.id" (change)="setIdMenu(element)"></mat-radio-button>
+                        </td>
+                    </mat-radio-group>
+                </ng-container>
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+
+        </mat-grid-tile>
+
+        <mat-grid-tile colspan="1" rowspan="4" style="background:#616161">
+
+            <mat-card class="example-card form-container">
+                <mat-card-header>
+                    <mat-card-title style="color: #ff6e40;">Tu pedido</mat-card-title>
+                    <!-- <mat-card-subtitle>Inicio de sesión</mat-card-subtitle> -->
+                </mat-card-header>
+                <!-- <img mat-card-image src="../../../assets/login-icon.jpg" alt="Photo of a Shiba Inu"> -->
+                <mat-divider></mat-divider>
+                <mat-card-content class="card-content">
+                    <div class="example-container">
+                        <form [formGroup]="pedidoForm" (ngSubmit)="pedir()" class="needs-validation" novalidate>
+                            <mat-form-field>
+                                <input matInput formControlName="nombreCliente" type="text" class="form-control"
+                                    id="name" placeholder="A nombre de: " [value]="nombreUser" disabled>
+                                <mat-error *ngIf="nombreCliente?.invalid">{{getErrorMessage()}}</mat-error>
+                            </mat-form-field>
+                            <mat-form-field>
+                                <input matInput formControlName="codigoMesa" type="text" class="form-control"
+                                    placeholder="Mesa: " id="codigoMesa" [value]="mesa.codigo" disabled>
+                            </mat-form-field>
+                            <mat-form-field>
+                                <input matInput type="text" class="form-control" id="idMenu"
+                                    formControlName="nombreMenu">
+                            </mat-form-field>
+                            <mat-form-field style="display: none;">
+                                <input matInput formControlName="idMenu" type="text" class="form-control" id="idMenu"
+                                    required>
+                            </mat-form-field>
+                            <button mat-raised-button color="warn" type="submit" [disabled]="!pedidoForm.valid"
+                                class="btn btn-primary">Pedir</button>
+                        </form>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+
+        </mat-grid-tile>
+    </mat-grid-list>
+</div>

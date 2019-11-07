@@ -1,14 +1,5 @@
 <app-toolbar></app-toolbar>
 <app-sidenav></app-sidenav>
-<!-- <mat-sidenav-container>
-    <mat-sidenav #sidenav mode="side" [(opened)]="opened">Sidenav</mat-sidenav>
-    <mat-sidenav-content>Main
-        <button (click)="opened=!opened">Toogle</button>
-        <button (click)="sidenav.open()">Open</button>
-        <button (click)="sidenav.close()">Close</button>
-        <button (click)="sidenav.toggle()">Toggle</button>
-    </mat-sidenav-content>
-</mat-sidenav-container> -->
 <router-outlet *ngIf="isLoggedOut$ | async"></router-outlet>
 <div class="spinner" *ngIf="spinnerServ.showSpinner">
     <mat-spinner></mat-spinner>

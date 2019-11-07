@@ -3,7 +3,7 @@ import { User } from 'src/app/clases/user';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { UserService } from 'src/app/servicios/user.service';
-import { Router } from '@angular/router';
+import { Router, Event } from '@angular/router';
 import { SpinnerService } from 'src/app/servicios/spinner.service';
 import { SnackbarService } from 'src/app/servicios/snackbar.service';
 
@@ -16,7 +16,7 @@ import { SnackbarService } from 'src/app/servicios/snackbar.service';
 export class LoginComponent implements OnInit {
 
   usuariosLogin: Array<any> = [
-    { id: 0, nombre: "admin", clave: "admin" },
+    { id: 0, nombre: "admin", clave: "admin123" },
     { id: 1, nombre: "socio", clave: "socio" },
     { id: 2, nombre: "mozo", clave: "mozo" },
     { id: 3, nombre: "bartender", clave: "bartender" },
@@ -49,7 +49,7 @@ export class LoginComponent implements OnInit {
           this.router.navigate(['']);
         } else {
           this.spinner.hideLoadingSpinner()
-          this.snackBar.openSnackBar("Usuario o contraseña incorrectos", "Cerrar");
+          this.snackBar.openSnackBar("Usuario o contraseña incorrectos",'');
         }
       });
   }
@@ -63,7 +63,6 @@ export class LoginComponent implements OnInit {
     this.clave = this.usuariosLogin[id].clave;
     this.loginForm.value.name = this.usuariosLogin[id].nombre;
     this.loginForm.value.password = this.usuariosLogin[id].clave;
-    console.info("form", this.loginForm.value)
   }
 
   ngOnInit() {

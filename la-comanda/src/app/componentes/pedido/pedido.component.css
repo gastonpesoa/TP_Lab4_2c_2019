@@ -1,0 +1,37 @@
+table {
+    width: 90%;
+}
+
+.example-container {
+    display: flex;
+    flex-direction: column;
+    margin-top: 70px;
+  }
+
+  .form-container{
+    
+  }
+
+.example-container > * > * {
+  width: 100%;
+}
+
+.example-card {
+  max-width: 400px;
+}
+
+.registro-card{
+  text-align: center;
+}
+
+.container{
+    margin: 10px 75px 10px 75px;
+}
+
+.mat-column-select, .mat-column-sector{
+    text-align: center;
+}
+
+.card-content{
+    margin-top: 50px;
+}

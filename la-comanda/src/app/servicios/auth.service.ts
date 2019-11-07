@@ -13,14 +13,15 @@ export class AuthService {
   private loggedOut = new BehaviorSubject<boolean>(true);
 
   get isLoggedIn() {
-    return this.loggedIn.asObservable(); 
+    return this.loggedIn.asObservable();
   }
 
   get isLoggedOut() {
-    return this.loggedOut.asObservable(); 
+    return this.loggedOut.asObservable();
   }
 
-  constructor(public jwtHelper: JwtHelperService, private router: Router) { }
+  constructor(public jwtHelper: JwtHelperService, private router: Router) {
+  }
 
   public isAuthenticated(): boolean {
     var result: boolean = false;
@@ -31,6 +32,10 @@ export class AuthService {
       this.loggedOut.next(false);
     }
     return result;
+  }
+
+  public decodeToken() {
+    return this.jwtHelper.decodeToken(localStorage.getItem('token'));
   }
 
   public logOut() {

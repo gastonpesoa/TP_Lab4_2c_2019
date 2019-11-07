@@ -1,28 +1,52 @@
 <div class="container">
-    <div class="jumbotron">
-        <div class="row title">
-            <h3>Alta de Usuario</h3>
-        </div>
-        <form [formGroup]="altaForm" (ngSubmit)="alta()" class="needs-validation" novalidate>
-            <div class="form-group">
-                <label for="nombre"><b>Nombre:</b></label>
-                <input formControlName="nombre" type="text" class="form-control" id="nombre"
-                    placeholder="Ingrese su nombre:" required>
-            </div>
-            <div class="form-group">
-                <label for="username"><b>Nombre de usuario:</b></label>
-                <input formControlName="username" type="text" class="form-control" id="username"
-                    placeholder="Ingrese su nombre de usuario:" required>
-            </div>
+    <mat-grid-list cols="4" rowHeight="95px">
 
-            <div class="form-group">
-                <label for="password"><b>Contraseña:</b></label>
-                <input formControlName="password" type="password" class="form-control" id="password"
-                    placeholder="Ingrese su contraseña:" required>
-            </div>
+        <mat-grid-tile colspan="1" rowspan="4" style="background:#616161">
+            <img src="../../../assets/home1.jpg" style="width: 100%;" alt="">
+        </mat-grid-tile>
 
-            <button type="submit" [disabled]="!altaForm.valid" class="btn btn-primary">Alta</button>
-        </form>
-        <br>
-    </div>
+        <mat-grid-tile colspan="2" rowspan="4" style="background:#616161">
+            <mat-list>
+                <mat-list-item>
+                    <h1>Sistema de pedido de comidas y bebidas</h1>
+                </mat-list-item>
+                <mat-divider></mat-divider>
+                <mat-list-item>
+                    <mat-icon>done </mat-icon> Seleccioná una mesa disponible
+                </mat-list-item>
+                <mat-list-item>
+                    <mat-icon>done </mat-icon> Realizá tu pedido
+                </mat-list-item>
+                <mat-list-item>
+                    <mat-icon>done </mat-icon> Seguí el estado del mismo
+                </mat-list-item>
+                <mat-list-item>
+                    <mat-icon>done </mat-icon> Disfrutalo
+                </mat-list-item>
+                <mat-list-item>
+                    <mat-icon>done </mat-icon> Realizá la encuesta de satisfacción
+                </mat-list-item>
+            </mat-list>
+        </mat-grid-tile>
+
+        <mat-grid-tile colspan="1" rowspan="8" style="background:#616161;">
+            <div class="img-cont" style="height: 100%;">
+                <img src="../../../assets/home2.jpg" style="height: 100%;" alt="">
+            </div>
+        </mat-grid-tile>
+
+        <mat-grid-tile colspan="3" rowspan="1" style="background:#616161;">
+                <h2>Seleccione su mesa</h2>
+        </mat-grid-tile>
+
+        <mat-grid-tile colspan="3" rowspan="3" style="background:#616161">
+            <span *ngFor="let mesa of mesas" [class]="mesa.estado!='cerrada'?'mesa-ocupada':'mesa-disponible'"
+                (click)="tomarMesa(mesa)">
+                <img class="img-mesa" [src]="mesa.foto" alt="">
+                <span class="codigo-mesa">{{mesa.codigo}}</span>
+                <span class="estado-mesa">{{mesa.estado!='cerrada'?'Ocupada':'Disponible'}}</span>
+            </span>
+        </mat-grid-tile>
+
+    </mat-grid-list>
 </div>

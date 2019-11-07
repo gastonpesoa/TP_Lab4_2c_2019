@@ -17,6 +17,8 @@ import { SidenavComponent } from './componentes/sidenav/sidenav.component';
 import { ToolbarComponent } from './componentes/toolbar/toolbar.component';
 import { RegistroComponent } from './componentes/registro/registro.component';
 import { MaterialModule } from './material.module';
+import { AltaUserComponent } from './componentes/alta-user/alta-user.component';
+import { PedidoComponent } from './componentes/pedido/pedido.component';
 
 
 const JWT_Module_Options: JwtModuleOptions = {
@@ -35,7 +37,9 @@ const JWT_Module_Options: JwtModuleOptions = {
     HomeComponent,
     SidenavComponent,
     ToolbarComponent,
-    RegistroComponent
+    RegistroComponent,
+    AltaUserComponent,
+    PedidoComponent
   ],
   imports: [
     BrowserModule,

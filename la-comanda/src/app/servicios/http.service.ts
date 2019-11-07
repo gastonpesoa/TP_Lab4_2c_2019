@@ -29,16 +29,28 @@ export class HttpService {
       .pipe(res => res);
   }
 
-  post(path: string, data: any): Observable<any> {
-    // var token = localStorage.getItem("token");
+  getWithToken(path: string): Observable<any> {
+    var httpOptions = {
+      headers: new HttpHeaders({ 'token': localStorage.getItem("token") })
+    };
+    return this.http.get<any>(environment.api.uri + path, httpOptions)
+      .pipe(res => res);
+  }
 
-    // var httpOptions = {
-    //   headers: new HttpHeaders({ 'token': token })
-    // };
-    // console.info("data", data, "httpOptions: ", httpOptions);
+  post(path: string, data: any): Observable<any> {
     return this.http.post<any>(environment.api.uri + path, data, this.httpOptions)
       .pipe(res => res);
   }
+
+  postWithToken(path: string, data: any): Observable<any> {
+    var httpOptions = {
+      headers: new HttpHeaders({ 'token': localStorage.getItem("token") })
+    };
+    return this.http.post<any>(environment.api.uri + path, data, httpOptions)
+      .pipe(res => res);
+  }
+
+  
 
   upload(path: string, data: any): Observable<any>{
     return this.http.post<any>(environment.api.uri + path, data)

@@ -11,7 +11,12 @@ import {
     MatDividerModule,
     MatSidenavModule,
     MatSnackBarModule,
-    MatSelectModule
+    MatSelectModule,
+    MatMenuModule,
+    MatListModule,
+    MatGridListModule,
+    MatTableModule,
+    MatRadioModule
 } from '@angular/material'
 
 const MaterialComponents = [
@@ -26,7 +31,12 @@ const MaterialComponents = [
     MatIconModule,
     MatProgressSpinnerModule,
     MatSnackBarModule,
-    MatSelectModule
+    MatSelectModule,
+    MatMenuModule,
+    MatListModule,
+    MatGridListModule,
+    MatTableModule,
+    MatRadioModule
 ]
 
 @NgModule({

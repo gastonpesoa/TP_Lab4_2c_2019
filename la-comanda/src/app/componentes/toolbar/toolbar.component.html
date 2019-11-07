@@ -1,5 +1,5 @@
 <mat-toolbar *ngIf="isLoggedIn$ | async" color="primary">
-  <span>La Comanda</span>
+  <span style="color: #ff6e40;">La Comanda</span>
 
   <!-- This fills the remaining space of the current row -->
   <span class="example-fill-remaining-space"></span>
@@ -9,6 +9,8 @@
     <span><a href="#">Acerca</a></span>
     <span><a href="#">Servicios</a></span>
   </div>
+  <span *ngIf="usrName!=''"><button mat-icon-button color="accent">{{usrName}}
+    </button></span>
   <span><button mat-icon-button color="accent" (click)="logOut()">
       <mat-icon>exit_to_app</mat-icon>
     </button></span>
