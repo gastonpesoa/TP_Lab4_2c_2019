@@ -12,17 +12,14 @@
                     <mat-form-field>
                         <input matInput formControlName="name" type="text" class="form-control" id="name"
                             placeholder="Ingrese su nombre completo:" required>
-                        <mat-error *ngIf="name?.invalid">{{getErrorMessage()}}</mat-error>
                     </mat-form-field>
                     <mat-form-field>
                         <input matInput formControlName="username" type="text" class="form-control" id="username"
                             placeholder="Ingrese su nombre de usuario:" required>
-                        <mat-error *ngIf="username?.invalid">{{getErrorMessage()}}</mat-error>
                     </mat-form-field>
                     <mat-form-field>
                         <input matInput formControlName="password" type="password" class="form-control" id="password"
                             placeholder="Ingrese su contraseña:" required>
-                        <mat-error *ngIf="password?.invalid">{{getErrorMessage()}}</mat-error>
                     </mat-form-field>
                     <div class="inputImg">
                         <p>Imágen de perfil: </p>

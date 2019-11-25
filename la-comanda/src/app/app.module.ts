@@ -5,6 +5,8 @@ import { CommonModule } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 import { JwtModule, JwtModuleOptions } from "@auth0/angular-jwt";
+import { BrowserQRCodeReader } from '@zxing/library';
+import { AngularFireModule } from '@angular/fire';
 
 import { RecaptchaModule, RecaptchaFormsModule } from 'ng-recaptcha';
 import { ToastrModule } from 'ngx-toastr';
@@ -19,16 +21,13 @@ import { RegistroComponent } from './componentes/registro/registro.component';
 import { MaterialModule } from './material.module';
 import { AltaUserComponent } from './componentes/alta-user/alta-user.component';
 import { PedidoComponent } from './componentes/pedido/pedido.component';
+import { firebaseConfig } from '../environments/environment'
 
 
-const JWT_Module_Options: JwtModuleOptions = {
-  config: {
-    tokenGetter: () => {
-      return localStorage.getItem("access_token");
-    },
-    whitelistedDomains: ["localhost:4200"]
-  }
-};
+export function tokenGetter() {
+  return localStorage.getItem("access_token");
+}
+
 
 @NgModule({
   declarations: [
@@ -50,7 +49,13 @@ const JWT_Module_Options: JwtModuleOptions = {
     BrowserAnimationsModule,
     ToastrModule.forRoot(),
     HttpClientModule,
-    JwtModule.forRoot(JWT_Module_Options),
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: tokenGetter,
+        whitelistedDomains: ["localhost:4200", "https://slipping-journals.000webhostapp.com"]
+      }
+    }),
+    AngularFireModule.initializeApp(firebaseConfig),
     RecaptchaModule,
     RecaptchaFormsModule,
     MaterialModule

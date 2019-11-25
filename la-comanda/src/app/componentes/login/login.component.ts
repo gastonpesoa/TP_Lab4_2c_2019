@@ -31,6 +31,9 @@ export class LoginComponent implements OnInit {
     name: new FormControl('', [Validators.required]),
     password: new FormControl('', [Validators.required])
   });
+  getTestResponse: any = null;
+  postTestResponse: any;
+  postTestTestResponse: any;
 
   constructor(private toastr: ToastrService,
     private userService: UserService,
@@ -63,6 +66,27 @@ export class LoginComponent implements OnInit {
     this.clave = this.usuariosLogin[id].clave;
     this.loginForm.value.name = this.usuariosLogin[id].nombre;
     this.loginForm.value.password = this.usuariosLogin[id].clave;
+  }
+
+  getTest(){
+    this.userService.getTest().subscribe(res => {
+      console.info("res", res);
+      this.getTestResponse = res;
+    })
+  }
+
+  postTest(){
+    this.userService.postTest().subscribe(res => {
+      console.info("res", res);
+      this.postTestResponse = res;
+    })
+  }
+
+  postTestTest(){
+    this.userService.postTestTest().subscribe(res => {
+      console.info("res", res);
+      this.postTestTestResponse = res;
+    })
   }
 
   ngOnInit() {

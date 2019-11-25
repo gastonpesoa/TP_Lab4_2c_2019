@@ -10,14 +10,12 @@
             <div class="example-container">
                 <form [formGroup]="loginForm" (ngSubmit)="login()" class="needs-validation" novalidate>
                     <mat-form-field>
-                        <input matInput formControlName="name" type="text" class="form-control" id="name" [(ngModel)]="nombre"
-                            placeholder="Ingrese su nombre de usuario:" required>
-                        <mat-error *ngIf="name?.invalid">{{getErrorMessage()}}</mat-error>
+                        <input matInput formControlName="name" type="text" class="form-control" id="name"
+                            [(ngModel)]="nombre" placeholder="Ingrese su nombre de usuario:" required>
                     </mat-form-field>
                     <mat-form-field>
                         <input matInput formControlName="password" type="password" class="form-control" id="password"
-                        [(ngModel)]="clave" placeholder="Ingrese su contraseña:" required>
-                        <mat-error *ngIf="password?.invalid">{{getErrorMessage()}}</mat-error>
+                            [(ngModel)]="clave" placeholder="Ingrese su contraseña:" required>
                     </mat-form-field>
                     <button mat-raised-button color="warn" type="submit" [disabled]="!loginForm.valid"
                         class="btn btn-primary">Ingresar</button>
@@ -43,6 +41,16 @@
         </mat-card-content>
     </mat-card>
 
-    
+
 
 </div>
+
+
+<!-- <button type="button" (click)="getTest()">getTest</button>
+<p style="color: aliceblue;" *ngIf="getTestResponse!=null">{{getTestResponse.Mensaje}}</p>
+
+<button type="button" (click)="postTest()">postTest</button>
+<p style="color: aliceblue;" *ngIf="postTestResponse!=null">{{postTestResponse.Mensaje}}</p>
+
+<button type="button" (click)="postTestTest()">postTestTest</button>
+<p style="color: aliceblue;" *ngIf="postTestResponse!=null">{{postTestTestResponse.Mensaje}}</p> -->

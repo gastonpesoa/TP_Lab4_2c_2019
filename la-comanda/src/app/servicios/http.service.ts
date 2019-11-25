@@ -42,6 +42,11 @@ export class HttpService {
       .pipe(res => res);
   }
 
+  postTest(path: string): Observable<any> {
+    return this.http.post<any>(environment.api.uri + path,'', this.httpOptions)
+      .pipe(res => res);
+  }
+
   postWithToken(path: string, data: any): Observable<any> {
     var httpOptions = {
       headers: new HttpHeaders({ 'token': localStorage.getItem("token") })

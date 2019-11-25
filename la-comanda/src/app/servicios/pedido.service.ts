@@ -14,6 +14,6 @@ export class PedidoService {
   }
 
   register(pedido: Pedido){
-    return this.httpService.post('pedido/new', pedido);
+    return this.httpService.postWithToken('pedido/new', pedido);
   }
 }

@@ -18,13 +18,13 @@ export class RegistroComponent implements OnInit {
   selectedFile: File = null;
   siteKey: string = environment.recaptcha.siteKey;
 
-    registroForm = new FormGroup({
-      name: new FormControl('', [Validators.required]),
-      username: new FormControl('', [Validators.required]),
-      password: new FormControl('', [Validators.required]),
-      avatar: new FormControl(''),
-      recaptcha: new FormControl(null, [Validators.required])
-    });
+  registroForm = new FormGroup({
+    name: new FormControl('', [Validators.required]),
+    username: new FormControl('', [Validators.required]),
+    password: new FormControl('', [Validators.required]),
+    avatar: new FormControl(''),
+    recaptcha: new FormControl(null, [Validators.required])
+  });
 
   constructor(
     public spinner: SpinnerService,

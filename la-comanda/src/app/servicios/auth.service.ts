@@ -3,12 +3,14 @@ import { JwtHelperService } from '@auth0/angular-jwt'
 import { BehaviorSubject } from 'rxjs';
 import { Router } from '@angular/router';
 
+const helper = new JwtHelperService();
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
+  
   private loggedIn = new BehaviorSubject<boolean>(false);
   private loggedOut = new BehaviorSubject<boolean>(true);
 
@@ -26,7 +28,7 @@ export class AuthService {
   public isAuthenticated(): boolean {
     var result: boolean = false;
     const token = localStorage.getItem('token');
-    if (!this.jwtHelper.isTokenExpired(token)) {
+    if (!helper.isTokenExpired(token)) {
       result = true;
       this.loggedIn.next(true);
       this.loggedOut.next(false);
@@ -35,7 +37,7 @@ export class AuthService {
   }
 
   public decodeToken() {
-    return this.jwtHelper.decodeToken(localStorage.getItem('token'));
+    return helper.decodeToken(localStorage.getItem('token'));
   }
 
   public logOut() {

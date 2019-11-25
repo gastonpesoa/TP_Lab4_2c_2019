@@ -48,12 +48,11 @@
                     <div class="example-container">
                         <form [formGroup]="pedidoForm" (ngSubmit)="pedir()" class="needs-validation" novalidate>
                             <mat-form-field>
-                                <input matInput formControlName="nombreCliente" type="text" class="form-control"
+                                <input matInput type="text" class="form-control" 
                                     id="name" placeholder="A nombre de: " [value]="nombreUser" disabled>
-                                <mat-error *ngIf="nombreCliente?.invalid">{{getErrorMessage()}}</mat-error>
                             </mat-form-field>
                             <mat-form-field>
-                                <input matInput formControlName="codigoMesa" type="text" class="form-control"
+                                <input matInput type="text" class="form-control"
                                     placeholder="Mesa: " id="codigoMesa" [value]="mesa.codigo" disabled>
                             </mat-form-field>
                             <mat-form-field>

@@ -20,6 +20,7 @@ export interface Menu {
 })
 export class PedidoComponent implements OnInit {
 
+  idUser;
   nombreUser;
   mesa;
   menus = [];
@@ -44,10 +45,10 @@ export class PedidoComponent implements OnInit {
     console.info("mesa", this.mesa);
     this.getMenus();
     this.getUsrName();
-    let controlCodigoMesa = this.pedidoForm.get('codigoMesa')
-    controlCodigoMesa.disabled ? controlCodigoMesa.enable() : controlCodigoMesa.disable();
-    let controlCliente = this.pedidoForm.get('nombreCliente')
-    controlCliente.disabled ? controlCliente.enable() : controlCliente.disable();
+    // let controlCodigoMesa = this.pedidoForm.get('codigoMesa')
+    // controlCodigoMesa.disabled ? controlCodigoMesa.enable() : controlCodigoMesa.disable();
+    // let controlCliente = this.pedidoForm.get('nombreCliente')
+    // controlCliente.disabled ? controlCliente.enable() : controlCliente.disable();
   }
 
   getMenus() {
@@ -59,28 +60,30 @@ export class PedidoComponent implements OnInit {
 
   pedir() {
     this.spinner.showLoadingSpinner();
-    // const pedido = new Pedido();
-    // this.pedidoForm.controls['nombreCliente'].setValue(this.nombreUser);
-    // console.warn(this.pedidoForm.value)
-    // pedido.idMenu = this.pedidoForm.value.idMenu;
-    // pedido.codigoMesa = this.pedidoForm.value.codigoMesa;
-    // pedido.nombreCliente = this.pedidoForm.value.nombreCliente;
-    // console.info("pedido", pedido);
-    // this.pedidoServ.register(pedido).subscribe(
-    //   (res) => {
-    //     console.info("res", res);
-    //     this.spinner.hideLoadingSpinner();
-    //   },
-    //   (error) => {
-    //     console.error(error);
-    //     this.spinner.hideLoadingSpinner();
-    //   }
-    // )
+    const pedido = new Pedido();
+    this.pedidoForm.controls['nombreCliente'].setValue(this.nombreUser);
+    this.pedidoForm.controls['codigoMesa'].setValue(this.mesa.codigo);
+    pedido.idMenu = this.pedidoForm.value.idMenu;
+    pedido.codigoMesa = this.pedidoForm.value.codigoMesa;
+    pedido.nombreCliente = this.nombreUser;
+    console.info("pedido", pedido);
+    console.info("pedido form", this.pedidoForm.value);
+    this.pedidoServ.register(pedido).subscribe(
+      (res) => {
+        console.info("res", res);
+        this.spinner.hideLoadingSpinner();
+      },
+      (error) => {
+        console.error(error);
+        this.spinner.hideLoadingSpinner();
+      }
+    )
   }
 
   getUsrName() {
     const usrData = this.authServ.decodeToken();
     this.nombreUser = usrData.data.username;
+    this.idUser = usrData.data.id;
   }
 
   getErrorMessage() {

@@ -18,6 +18,16 @@ export const environment = {
   }
 };
 
+export const firebaseConfig = {
+  apiKey: "AIzaSyA7Eq9PIvwgntnIMg3Wnh2O3QMxLJisi6k",
+  authDomain: "la-comada-web.firebaseapp.com",
+  databaseURL: "https://la-comada-web.firebaseio.com",
+  projectId: "la-comada-web",
+  storageBucket: "la-comada-web.appspot.com",
+  messagingSenderId: "722061289657",
+  appId: "1:722061289657:web:a073d3bbe79d5a00849368"
+};
+
 /*
  * For easier debugging in development mode, you can import the following file
  * to ignore zone related error stack frames such as `zone.run`, `zoneDelegate.invokeTask`.
