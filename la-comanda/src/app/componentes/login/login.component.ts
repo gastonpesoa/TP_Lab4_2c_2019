@@ -6,6 +6,7 @@ import { UserService } from 'src/app/servicios/user.service';
 import { Router, Event } from '@angular/router';
 import { SpinnerService } from 'src/app/servicios/spinner.service';
 import { SnackbarService } from 'src/app/servicios/snackbar.service';
+import { AuthService } from 'src/app/servicios/auth.service';
 
 
 @Component({
@@ -16,77 +17,47 @@ import { SnackbarService } from 'src/app/servicios/snackbar.service';
 export class LoginComponent implements OnInit {
 
   usuariosLogin: Array<any> = [
-    { id: 0, nombre: "admin", clave: "admin123" },
-    { id: 1, nombre: "socio", clave: "socio" },
-    { id: 2, nombre: "mozo", clave: "mozo" },
-    { id: 3, nombre: "bartender", clave: "bartender" },
-    { id: 4, nombre: "cervecero", clave: "cervecero" },
-    { id: 5, nombre: "cocinero", clave: "cocinero" },
-    { id: 6, nombre: "cliente", clave: "cliente" }
+    { id: 0, nombre: "admin", clave: "admin123", email: "admin@admin.com" },
+    { id: 1, nombre: "socio", clave: "socio123", email: "socio@socio.com" },
+    { id: 2, nombre: "cliente", clave: "cliente123", email: "cliente@cliente.com" },
+    { id: 3, nombre: "mozo", clave: "mozo123", email: "mozo@mozo.com" },
+    { id: 4, nombre: "bartender", clave: "bartender123", email: "bartender@bartender.com" },
+    { id: 5, nombre: "cervecero", clave: "cervecero123", email: "cervecero@cervecero.com" },
+    { id: 6, nombre: "cocinero", clave: "cocinero123", email: "cocinero@cocinero.com" }
   ]
-  nombre: string;
+  email: string;
   clave: string;
 
   loginForm = new FormGroup({
-    name: new FormControl('', [Validators.required]),
+    email: new FormControl('', [Validators.required, Validators.email]),
     password: new FormControl('', [Validators.required])
   });
-  getTestResponse: any = null;
-  postTestResponse: any;
-  postTestTestResponse: any;
 
-  constructor(private toastr: ToastrService,
-    private userService: UserService,
+  constructor(
+    private auth: AuthService,
     private router: Router,
     public spinner: SpinnerService,
     public snackBar: SnackbarService) { }
 
   login() {
     this.spinner.showLoadingSpinner();
-    this.userService.login(this.loginForm.value.name, this.loginForm.value.password)
-      .subscribe(res => {
+    this.auth.login(this.loginForm.value.email, this.loginForm.value.password)
+      .then(res => {
         console.info("res: ", res);
-        if (res.Estado == "OK") {
-          localStorage.setItem("token", res.Token); // Store token
-          this.spinner.hideLoadingSpinner()
-          this.router.navigate(['']);
-        } else {
-          this.spinner.hideLoadingSpinner()
-          this.snackBar.openSnackBar("Usuario o contraseña incorrectos",'');
-        }
+        this.spinner.hideLoadingSpinner()
+        this.router.navigate(['']);
+      })
+      .catch(err => {
+        this.spinner.hideLoadingSpinner()
+        this.snackBar.openSnackBar("Usuario o contraseña incorrectos", '');
       });
   }
 
-  getErrorMessage() {
-    return this.loginForm.hasError('required') ? 'Debe ingresar un valor' : '';
-  }
-
   onChange(id) {
-    this.nombre = this.usuariosLogin[id].nombre;
+    this.email = this.usuariosLogin[id].email;
     this.clave = this.usuariosLogin[id].clave;
-    this.loginForm.value.name = this.usuariosLogin[id].nombre;
-    this.loginForm.value.password = this.usuariosLogin[id].clave;
-  }
-
-  getTest(){
-    this.userService.getTest().subscribe(res => {
-      console.info("res", res);
-      this.getTestResponse = res;
-    })
-  }
-
-  postTest(){
-    this.userService.postTest().subscribe(res => {
-      console.info("res", res);
-      this.postTestResponse = res;
-    })
-  }
-
-  postTestTest(){
-    this.userService.postTestTest().subscribe(res => {
-      console.info("res", res);
-      this.postTestTestResponse = res;
-    })
+    this.loginForm.value.email = this.usuariosLogin[id].email;
+    this.loginForm.value.clave = this.usuariosLogin[id].clave;
   }
 
   ngOnInit() {

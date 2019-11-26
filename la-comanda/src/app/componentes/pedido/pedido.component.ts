@@ -81,9 +81,9 @@ export class PedidoComponent implements OnInit {
   }
 
   getUsrName() {
-    const usrData = this.authServ.decodeToken();
-    this.nombreUser = usrData.data.username;
-    this.idUser = usrData.data.id;
+    // const usrData = this.authServ.decodeToken();
+    // this.nombreUser = usrData.data.username;
+    // this.idUser = usrData.data.id;
   }
 
   getErrorMessage() {

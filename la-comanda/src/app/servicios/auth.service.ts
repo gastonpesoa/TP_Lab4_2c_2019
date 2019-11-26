@@ -1,16 +1,26 @@
 import { Injectable } from '@angular/core';
-import { JwtHelperService } from '@auth0/angular-jwt'
-import { BehaviorSubject } from 'rxjs';
 import { Router } from '@angular/router';
+import { AngularFireAuth } from '@angular/fire/auth';
+import { AngularFirestore } from '@angular/fire/firestore';
+import { BehaviorSubject } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { isNullOrUndefined } from 'util';
+import { FirebaseService } from './firebase.service';
 
-const helper = new JwtHelperService();
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  
+  constructor(
+    private fireServ: FirebaseService,
+    private AFauth: AngularFireAuth,
+    private router: Router,
+    private db: AngularFirestore) {
+  }
+
   private loggedIn = new BehaviorSubject<boolean>(false);
   private loggedOut = new BehaviorSubject<boolean>(true);
 
@@ -22,31 +32,79 @@ export class AuthService {
     return this.loggedOut.asObservable();
   }
 
-  constructor(public jwtHelper: JwtHelperService, private router: Router) {
-  }
+  public isAuthenticated() {
 
-  public isAuthenticated(): boolean {
-    var result: boolean = false;
-    const token = localStorage.getItem('token');
-    if (!helper.isTokenExpired(token)) {
-      result = true;
-      this.loggedIn.next(true);
-      this.loggedOut.next(false);
-    }
-    return result;
-  }
-
-  public decodeToken() {
-    return helper.decodeToken(localStorage.getItem('token'));
+    this.loggedIn.next(true);
+    this.loggedOut.next(false);
   }
 
   public logOut() {
-    if (localStorage.getItem('token')) {
+    this.AFauth.auth.signOut().then(() => {
+      console.info("signOut")
       this.loggedIn.next(false);
       this.loggedOut.next(true);
-      localStorage.removeItem('token');
       this.router.navigate(['/login']);
-    }
+    })
+  }
+
+  getCurrentUser() {
+    let user = this.AFauth.auth.currentUser;
+    return user;
+  }
+
+  login(email: string, password: string) {
+    return new Promise((resolve, reject) => {
+      this.AFauth.auth.signInWithEmailAndPassword(email, password)
+        .then(user => {
+          resolve(user);
+        })
+        .catch(err => {
+          reject(err);
+        });
+    })
+  }
+
+  register(name: string, email: string, password: string, file?: string) {
+    return new Promise((resolve, reject) => {
+      this.AFauth.auth.createUserWithEmailAndPassword(email, password)
+        .then(res => {
+          const uid = res.user.uid;
+          this.db.collection("usuarios").doc(res.user.uid).set({
+            nombre: name,
+            uid: uid
+          })
+          if(file)
+            this.subirFoto(file, res.user.uid)
+          resolve(res)
+        })
+        .catch(error => { reject(error) });
+    });
+  }
+
+  subirFoto(file, uid) {
+    this.fireServ.uploadToStorage(file)
+      .then(res => {
+        console.log("uploadToStorage res", res)
+        res.ref.getDownloadURL()
+          .then(url => {
+            this.updateFotoUsuario(uid, url)
+            .then(res => {
+              console.info("updateFotoUsuario res", res)
+            })
+            .catch(err => {
+              console.info("updateFotoUsuario err", err)
+            })
+          })
+          .catch(err => {
+            console.info("err");
+            return err.message;
+          })
+      });
+  }
+
+  updateFotoUsuario(uid: string, url: any) {
+    return this.db.collection('usuarios').doc(uid)
+      .set({ foto: url }, { merge: true });
   }
 
 }

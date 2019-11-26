@@ -29,7 +29,7 @@ export class SidenavComponent implements OnInit {
   }
 
   getMenu() {
-    const usrData = this.authService.decodeToken();
+    // const usrData = this.authService.decodeToken();
     this.pages = [];
     this.pages.push(
       {
@@ -38,44 +38,44 @@ export class SidenavComponent implements OnInit {
         icon: 'home'
       }
     )
-    switch (usrData.data.tipo) {
-      case 'admin':
-        this.pages.push(
-          {
-            title: 'Alta de Usuario',
-            url: '/alta-usuario',
-            icon: 'add'
-          }
-        )
-        break;
-      case 'socio':
-        this.pages.push(
-          {
-            title: 'Alta de Usuario',
-            url: '/alta-usuario',
-            icon: 'add'
-          }
-        )
-        break;
-      case 'mozo':
+  //   switch (usrData.data.tipo) {
+  //     case 'admin':
+  //       this.pages.push(
+  //         {
+  //           title: 'Alta de Usuario',
+  //           url: '/alta-usuario',
+  //           icon: 'add'
+  //         }
+  //       )
+  //       break;
+  //     case 'socio':
+  //       this.pages.push(
+  //         {
+  //           title: 'Alta de Usuario',
+  //           url: '/alta-usuario',
+  //           icon: 'add'
+  //         }
+  //       )
+  //       break;
+  //     case 'mozo':
 
-        break;
-      case 'cocinero':
+  //       break;
+  //     case 'cocinero':
 
-        break;
-      case 'bartender':
+  //       break;
+  //     case 'bartender':
 
-        break;
-      case 'cervecero':
+  //       break;
+  //     case 'cervecero':
 
-        break;
-      case 'usuario':
+  //       break;
+  //     case 'usuario':
 
-        break;
+  //       break;
 
-      default:
-        break;
-    }
-  }
+  //     default:
+  //       break;
+  //   }
+   }
 
 }

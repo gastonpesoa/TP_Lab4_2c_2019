@@ -7,6 +7,10 @@ import { UploadService } from 'src/app/servicios/upload.service';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { environment } from '../../../environments/environment'
 import { SpinnerService } from 'src/app/servicios/spinner.service';
+import { FirebaseService } from 'src/app/servicios/firebase.service';
+import { AuthService } from 'src/app/servicios/auth.service';
+import { SnackbarService } from 'src/app/servicios/snackbar.service';
+
 
 @Component({
   selector: 'app-registro',
@@ -20,66 +24,56 @@ export class RegistroComponent implements OnInit {
 
   registroForm = new FormGroup({
     name: new FormControl('', [Validators.required]),
-    username: new FormControl('', [Validators.required]),
+    email: new FormControl('', [Validators.required, Validators.email]),
     password: new FormControl('', [Validators.required]),
     avatar: new FormControl(''),
     recaptcha: new FormControl(null, [Validators.required])
   });
+  base64file;
 
   constructor(
+    private fireServ: FirebaseService,
     public spinner: SpinnerService,
-    private userServ: UserService,
+    private authServ: AuthService,
     private router: Router,
     private uploadServ: UploadService,
-    public jwtHelper: JwtHelperService) { }
+    public snackBar: SnackbarService) { }
 
   ngOnInit() {
   }
 
-  getErrorMessage() {
-    return this.registroForm.hasError('required') ? 'Debe ingresar un valor' : '';
+  toBase64(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = error => reject(error);
+    });
   }
 
   onFileInput(event) {
     if (event.target.files.length > 0) {
       this.selectedFile = <File>event.target.files[0];
-      console.info("file", this.selectedFile);
-      this.registroForm.get('avatar').setValue(this.selectedFile);
+      this.toBase64(event.target.files[0]).then(res => {
+        this.base64file = res
+        this.registroForm.get('avatar').setValue(this.base64file);
+      });
     }
   }
 
   registro() {
     this.spinner.showLoadingSpinner();
-    const formData = new FormData();
-    formData.append('imagen', this.selectedFile, this.selectedFile.name);
-
-    const user = new User();
-    user.username = this.registroForm.value.username;
-    user.nombre = this.registroForm.value.name;
-    user.password = this.registroForm.value.password;
-
-    this.userServ.register(user).subscribe(
-      (res) => {
-        console.info("res", res);
-        var payload = this.jwtHelper.decodeToken(res.Token);
-        var userId = payload.data.id;
-        localStorage.setItem("token", res.Token);
-        formData.append('id', userId);
-
-        this.uploadServ.upload(formData).subscribe(
-          (res) => {
-            console.info("res", res);
-            this.spinner.hideLoadingSpinner();
-            this.router.navigate(['']);
-          },
-          (error) => {
-            console.error(error);
-            this.spinner.hideLoadingSpinner();
-          });
-      },
-      (error) => {
-        console.error(error);
+    this.authServ.register(this.registroForm.value.name, this.registroForm.value.email,
+      this.registroForm.value.password, this.base64file)
+      .then(auth => {
         this.spinner.hideLoadingSpinner();
-      });
+        this.router.navigate(['']);
+        this.snackBar.openSnackBar("Usuario registrado", '');
+      })
+      .catch(err => {
+        console.info("error", err);
+        this.spinner.hideLoadingSpinner();
+        this.snackBar.openSnackBar(err.message, 'Error');
+      })
   }
 }

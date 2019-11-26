@@ -40,12 +40,12 @@
         </mat-grid-tile>
 
         <mat-grid-tile colspan="3" rowspan="3" style="background:#616161">
-            <span *ngFor="let mesa of mesas" [class]="mesa.estado!='cerrada'?'mesa-ocupada':'mesa-disponible'"
+            <!-- <span *ngFor="let mesa of mesas" [class]="mesa.estado!='cerrada'?'mesa-ocupada':'mesa-disponible'"
                 (click)="tomarMesa(mesa)">
                 <img class="img-mesa" [src]="mesa.foto" alt="">
                 <span class="codigo-mesa">{{mesa.codigo}}</span>
                 <span class="estado-mesa">{{mesa.estado!='cerrada'?'Ocupada':'Disponible'}}</span>
-            </span>
+            </span> -->
         </mat-grid-tile>
 
     </mat-grid-list>

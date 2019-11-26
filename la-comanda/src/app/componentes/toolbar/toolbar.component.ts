@@ -18,7 +18,6 @@ export class ToolbarComponent implements OnInit {
 
   ngOnInit() {
     this.isLoggedIn$ = this.authService.isLoggedIn;
-
     this.isLoggedIn$.subscribe(res => {
       if(res){
         this.setUsrName()
@@ -31,8 +30,8 @@ export class ToolbarComponent implements OnInit {
   }
 
   setUsrName(){
-    const usrData = this.authService.decodeToken();
-    this.usrName = usrData.data.username;
+    let usr = this.authService.getCurrentUser();
+    this.usrName = usr.email;
   }
 
 }

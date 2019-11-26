@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 
-import { BarcodeService } from './barcode.service';
+import { FirebaseService } from './firebase.service';
 
-describe('BarcodeService', () => {
+describe('FirebaseService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {
-    const service: BarcodeService = TestBed.get(BarcodeService);
+    const service: FirebaseService = TestBed.get(FirebaseService);
     expect(service).toBeTruthy();
   });
 });

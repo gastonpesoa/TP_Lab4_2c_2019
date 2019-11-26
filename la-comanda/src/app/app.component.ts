@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { SpinnerService } from './servicios/spinner.service';
 import { AuthService } from './servicios/auth.service';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators'
+import { isNullOrUndefined } from 'util';
+import { AngularFireAuth } from '@angular/fire/auth';
 
 
 @Component({

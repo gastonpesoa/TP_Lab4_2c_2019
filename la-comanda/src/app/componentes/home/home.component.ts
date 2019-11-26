@@ -5,7 +5,7 @@ import { UserService } from 'src/app/servicios/user.service';
 import { MesaService } from 'src/app/servicios/mesa.service';
 import { Router } from '@angular/router';
 import { SnackbarService } from 'src/app/servicios/snackbar.service';
-import { BarcodeService } from 'src/app/servicios/barcode.service';
+
 
 export interface Mesa {
   codigo: string;
@@ -28,10 +28,10 @@ export class HomeComponent implements OnInit {
     public snackBar: SnackbarService) { }
 
   ngOnInit() {
-    this.mesaServ.list().subscribe(res => {
-      console.info("mesas", res)
-      this.mesas = res;
-    })
+    // this.mesaServ.list().subscribe(res => {
+    //   console.info("mesas", res)
+    //   this.mesas = res;
+    // })
   }
 
   tomarMesa(mesa) {

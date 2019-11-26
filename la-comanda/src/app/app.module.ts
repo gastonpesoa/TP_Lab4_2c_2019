@@ -5,8 +5,11 @@ import { CommonModule } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 import { JwtModule, JwtModuleOptions } from "@auth0/angular-jwt";
-import { BrowserQRCodeReader } from '@zxing/library';
+
 import { AngularFireModule } from '@angular/fire';
+import { AngularFireAuthModule } from '@angular/fire/auth';
+import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { AngularFireStorageModule } from '@angular/fire/storage';
 
 import { RecaptchaModule, RecaptchaFormsModule } from 'ng-recaptcha';
 import { ToastrModule } from 'ngx-toastr';
@@ -56,6 +59,9 @@ export function tokenGetter() {
       }
     }),
     AngularFireModule.initializeApp(firebaseConfig),
+    AngularFireAuthModule,
+    AngularFirestoreModule,
+    AngularFireStorageModule,
     RecaptchaModule,
     RecaptchaFormsModule,
     MaterialModule

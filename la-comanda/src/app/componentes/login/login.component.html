@@ -10,8 +10,8 @@
             <div class="example-container">
                 <form [formGroup]="loginForm" (ngSubmit)="login()" class="needs-validation" novalidate>
                     <mat-form-field>
-                        <input matInput formControlName="name" type="text" class="form-control" id="name"
-                            [(ngModel)]="nombre" placeholder="Ingrese su nombre de usuario:" required>
+                        <input matInput formControlName="email" type="text" class="form-control" id="email"
+                            [(ngModel)]="email" placeholder="Ingrese su email de usuario:" required>
                     </mat-form-field>
                     <mat-form-field>
                         <input matInput formControlName="password" type="password" class="form-control" id="password"
@@ -40,17 +40,4 @@
             </mat-select>
         </mat-card-content>
     </mat-card>
-
-
-
 </div>
-
-
-<!-- <button type="button" (click)="getTest()">getTest</button>
-<p style="color: aliceblue;" *ngIf="getTestResponse!=null">{{getTestResponse.Mensaje}}</p>
-
-<button type="button" (click)="postTest()">postTest</button>
-<p style="color: aliceblue;" *ngIf="postTestResponse!=null">{{postTestResponse.Mensaje}}</p>
-
-<button type="button" (click)="postTestTest()">postTestTest</button>
-<p style="color: aliceblue;" *ngIf="postTestResponse!=null">{{postTestTestResponse.Mensaje}}</p> -->

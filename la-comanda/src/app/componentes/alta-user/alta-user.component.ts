@@ -23,15 +23,15 @@ export class AltaUserComponent implements OnInit {
   }
 
   alta() {
-    console.warn(this.altaForm.value);
-    const user = new User();
-    user.username = this.altaForm.value.username;
-    user.nombre = this.altaForm.value.nombre;
-    user.password = this.altaForm.value.password;
-    user.perfil = 'socio';
-    this.userService.register(user).subscribe(res => {
-      console.info("res", res);
-    })
+    // console.warn(this.altaForm.value);
+    // const user = new User();
+    // user.username = this.altaForm.value.username;
+    // user.nombre = this.altaForm.value.nombre;
+    // user.password = this.altaForm.value.password;
+    // user.perfil = 'socio';
+    // this.userService.register(user).subscribe(res => {
+    //   console.info("res", res);
+    // })
   }
 
 }
