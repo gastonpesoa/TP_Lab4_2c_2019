@@ -1,0 +1,30 @@
+<h2>Lista de clientes en espera de mesa</h2>
+
+<div class="container">
+
+    <mat-list>
+        <mat-list-item *ngFor="let item of listaEsperaPendientes">
+            <img *ngIf="item.cliente.foto" matListAvatar [src]="item.cliente.foto">
+            <img *ngIf="!item.cliente.foto" matListAvatar src="../../../assets/user.png" alt="">
+            <h3 matLine> {{item.cliente.nombre}} </h3>
+
+            <mat-form-field matLine>
+                <mat-label matLine>Seleccioná una mesa</mat-label>
+                <mat-select matLine [(value)]="selected">
+                    <mat-option *ngFor="let mesa of mesasLibres" value="{{mesa.key}}">{{mesa.nombre}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <p style="text-align: right;" matLine>
+                <span><button mat-raised-button color="warn" (click)="cancelar(item.key)">Eliminar de la lista
+                        de espera
+                        <mat-icon>clear
+                        </mat-icon></button></span>
+                <span> <button mat-raised-button color="accent" (click)="asignarMesa(item.cliente.uid, item.key)">Asignar <mat-icon>
+                            done
+                        </mat-icon></button>
+                </span>
+            </p>
+        </mat-list-item>
+    </mat-list>
+</div>

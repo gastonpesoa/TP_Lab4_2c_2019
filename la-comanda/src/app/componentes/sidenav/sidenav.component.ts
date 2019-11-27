@@ -18,7 +18,7 @@ export class SidenavComponent implements OnInit {
   ngOnInit() {
     this.isLoggedIn$ = this.authService.isLoggedIn;
     this.isLoggedIn$.subscribe(res => {
-      if(res){
+      if (res) {
         this.getMenu()
       }
     });
@@ -29,7 +29,6 @@ export class SidenavComponent implements OnInit {
   }
 
   getMenu() {
-    // const usrData = this.authService.decodeToken();
     this.pages = [];
     this.pages.push(
       {
@@ -38,44 +37,59 @@ export class SidenavComponent implements OnInit {
         icon: 'home'
       }
     )
-  //   switch (usrData.data.tipo) {
-  //     case 'admin':
-  //       this.pages.push(
-  //         {
-  //           title: 'Alta de Usuario',
-  //           url: '/alta-usuario',
-  //           icon: 'add'
-  //         }
-  //       )
-  //       break;
-  //     case 'socio':
-  //       this.pages.push(
-  //         {
-  //           title: 'Alta de Usuario',
-  //           url: '/alta-usuario',
-  //           icon: 'add'
-  //         }
-  //       )
-  //       break;
-  //     case 'mozo':
+    this.authService.getUserData().subscribe(usrData => {
+      switch (usrData.tipo) {
+        case 'admin':
+          this.pages.push(
+            {
+              title: 'Alta de Usuario',
+              url: '/alta-usuario',
+              icon: 'add'
+            }
+          )
+          break;
+        case 'socio':
+          this.pages.push(
+            {
+              title: 'Alta de Usuario',
+              url: '/alta-usuario',
+              icon: 'add'
+            }
+          )
+          break;
+        case 'mozo':
+          this.pages.push(
+            {
+              title: 'Lista de espera',
+              url: '/lista-espera',
+              icon: 'list'
+            }
+          )
+          break;
+        case 'cocinero':
 
-  //       break;
-  //     case 'cocinero':
+          break;
+        case 'bartender':
 
-  //       break;
-  //     case 'bartender':
+          break;
+        case 'cervecero':
 
-  //       break;
-  //     case 'cervecero':
+          break;
+        case 'cliente':
+          this.pages.push(
+            {
+              title: 'Pedir',
+              url: '/home-cliente',
+              icon: 'add'
+            }
+          )
+          break;
 
-  //       break;
-  //     case 'usuario':
+        default:
+          break;
+      }
 
-  //       break;
-
-  //     default:
-  //       break;
-  //   }
-   }
+    });
+  }
 
 }

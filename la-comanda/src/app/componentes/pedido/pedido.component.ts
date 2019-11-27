@@ -5,12 +5,15 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/servicios/auth.service';
 import { SpinnerService } from 'src/app/servicios/spinner.service';
 import { Pedido } from 'src/app/clases/pedido';
+import { FirebaseService } from 'src/app/servicios/firebase.service';
+import { map } from 'rxjs/operators'
 
 export interface Menu {
   id: number;
   nombre: string;
   precio: number;
-  sector: string;
+  tipo: string;
+  cantidad: number;
 }
 
 @Component({
@@ -20,12 +23,14 @@ export interface Menu {
 })
 export class PedidoComponent implements OnInit {
 
+  usuario: any;
   idUser;
   nombreUser;
   mesa;
   menus = [];
-  displayedColumns: string[] = ['nombre', 'precio', 'sector', 'select'];
-  dataSource: Menu[] = [];
+  displayedColumns: string[] = ['nombre', 'precio', 'cantidad', 'select'];
+  dataSourceComidas: Menu[] = [];
+  dataSourceBebidas: Menu[] = [];
 
   pedidoForm = new FormGroup({
     idMenu: new FormControl('', [Validators.required]),
@@ -35,27 +40,49 @@ export class PedidoComponent implements OnInit {
   });
 
   constructor(
+    private fireServ: FirebaseService,
+    private route: ActivatedRoute,
     public router: Router,
     private pedidoServ: PedidoService,
-    private authServ: AuthService,
-    public spinner: SpinnerService, ) { }
-
-  ngOnInit() {
-    this.mesa = window.history.state.data;
-    console.info("mesa", this.mesa);
-    this.getMenus();
-    this.getUsrName();
-    // let controlCodigoMesa = this.pedidoForm.get('codigoMesa')
-    // controlCodigoMesa.disabled ? controlCodigoMesa.enable() : controlCodigoMesa.disable();
-    // let controlCliente = this.pedidoForm.get('nombreCliente')
-    // controlCliente.disabled ? controlCliente.enable() : controlCliente.disable();
+    public spinner: SpinnerService, ) {
+    this.route.queryParams.subscribe(params => {
+      if (this.router.getCurrentNavigation().extras.state) {
+        this.usuario = this.router.getCurrentNavigation().extras.state.usuario;
+        this.mesa = this.router.getCurrentNavigation().extras.state.mesa;
+        console.info("usuario", this.usuario)
+        console.info("mesa", this.mesa)
+      }
+    });
   }
 
-  getMenus() {
-    this.pedidoServ.list().subscribe(res => {
-      console.info("menus", res);
-      this.dataSource = res;
-    })
+  ngOnInit() {
+    this.getMenus('cocina').subscribe(res => {
+      console.info('cocina', res)
+      this.dataSourceComidas = res;
+    });
+    this.getMenus('barra').subscribe(res => {
+      console.info('barra', res)
+      this.dataSourceBebidas = res;
+    });
+  }
+
+  getMenus(tipo) {
+    return this.fireServ.traerColeccion("/menus").pipe(
+      map(productos => {
+        const auxMenus: any = productos.map(a => {
+          const data: any = a.payload.doc.data();
+          data.key = a.payload.doc.id;
+          return data;
+        });
+        const auxRetorno: Array<any> = new Array<any>();
+          for (const menu of auxMenus) {
+            if ((menu.tipo as string) === tipo) {
+              auxRetorno.push(menu);
+            }
+          }
+          return auxRetorno;
+      })
+    );
   }
 
   pedir() {

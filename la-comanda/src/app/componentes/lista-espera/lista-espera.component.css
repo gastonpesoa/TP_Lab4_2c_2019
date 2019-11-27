@@ -1,0 +1,12 @@
+mat-list{
+    width: 40%;
+}
+
+.mat-list-base .mat-list-item .mat-list-avatar, .mat-list-base .mat-list-option .mat-list-avatar {
+    width: 80px;
+    height: 80px;
+}
+
+button{
+    margin-right: 10px;
+}

@@ -23,8 +23,8 @@ export class HomeComponent implements OnInit {
   mesas: Mesa[] = [];
 
   constructor(
-    private mesaServ: MesaService, 
-    private router: Router, 
+    private mesaServ: MesaService,
+    private router: Router,
     public snackBar: SnackbarService) { }
 
   ngOnInit() {

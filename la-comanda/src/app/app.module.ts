@@ -24,7 +24,9 @@ import { RegistroComponent } from './componentes/registro/registro.component';
 import { MaterialModule } from './material.module';
 import { AltaUserComponent } from './componentes/alta-user/alta-user.component';
 import { PedidoComponent } from './componentes/pedido/pedido.component';
-import { firebaseConfig } from '../environments/environment'
+import { firebaseConfig } from '../environments/environment';
+import { HomeClienteComponent } from './componentes/home-cliente/home-cliente.component';
+import { ListaEsperaComponent } from './componentes/lista-espera/lista-espera.component'
 
 
 export function tokenGetter() {
@@ -41,7 +43,9 @@ export function tokenGetter() {
     ToolbarComponent,
     RegistroComponent,
     AltaUserComponent,
-    PedidoComponent
+    PedidoComponent,
+    HomeClienteComponent,
+    ListaEsperaComponent
   ],
   imports: [
     BrowserModule,

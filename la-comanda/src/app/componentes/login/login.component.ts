@@ -19,11 +19,13 @@ export class LoginComponent implements OnInit {
   usuariosLogin: Array<any> = [
     { id: 0, nombre: "admin", clave: "admin123", email: "admin@admin.com" },
     { id: 1, nombre: "socio", clave: "socio123", email: "socio@socio.com" },
-    { id: 2, nombre: "cliente", clave: "cliente123", email: "cliente@cliente.com" },
+    { id: 2, nombre: "cocinero", clave: "cocinero123", email: "cocinero@cocinero.com" },
     { id: 3, nombre: "mozo", clave: "mozo123", email: "mozo@mozo.com" },
     { id: 4, nombre: "bartender", clave: "bartender123", email: "bartender@bartender.com" },
     { id: 5, nombre: "cervecero", clave: "cervecero123", email: "cervecero@cervecero.com" },
-    { id: 6, nombre: "cocinero", clave: "cocinero123", email: "cocinero@cocinero.com" }
+    { id: 6, nombre: "cliente", clave: "cliente123", email: "cliente@cliente.com" },
+    { id: 7, nombre: "clienteDos", clave: "cliente123", email: "clienteDos@clienteDos.com" },
+    { id: 8, nombre: "clienteTres", clave: "cliente123", email: "clienteTres@clienteTres.com" },
   ]
   email: string;
   clave: string;
@@ -43,7 +45,6 @@ export class LoginComponent implements OnInit {
     this.spinner.showLoadingSpinner();
     this.auth.login(this.loginForm.value.email, this.loginForm.value.password)
       .then(res => {
-        console.info("res: ", res);
         this.spinner.hideLoadingSpinner()
         this.router.navigate(['']);
       })

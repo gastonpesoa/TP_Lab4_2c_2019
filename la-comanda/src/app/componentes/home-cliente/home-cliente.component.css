@@ -1,0 +1,21 @@
+.container{
+    margin-top: 1em;
+}
+
+.tu-mesa{
+    position: absolute;
+    top: 5px;
+    left: 4px;
+    background-color: #616161;
+    color: #69f0ae;
+    width: 31%;
+    text-align: center;
+    border-radius: 10px;
+    height: 19%;
+    z-index: 999;
+    padding: 19px;
+}
+
+mat-spinner{
+    left: 98%;
+}

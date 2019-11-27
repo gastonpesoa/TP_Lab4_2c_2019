@@ -6,6 +6,7 @@ import { BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { isNullOrUndefined } from 'util';
 import { FirebaseService } from './firebase.service';
+import { User } from '../clases/user';
 
 
 
@@ -52,6 +53,43 @@ export class AuthService {
     return user;
   }
 
+  getUsuarios() {
+    return this.db.collection("usuarios").snapshotChanges().pipe(map(users => {
+      return users.map(a => {
+        const data = a.payload.doc.data() as User;
+        data.id = a.payload.doc.id;
+        return data;
+      })
+    }))
+  }
+
+  public getUserData() {
+    let user = this.AFauth.auth.currentUser;
+    return this.db
+      .collection('usuarios')
+      .snapshotChanges()
+      .pipe(
+        map(usuario => {
+          const auxUsuarios: any = usuario.map(a => {
+            const data: any = a.payload.doc.data();
+            data.key = a.payload.doc.id;
+            return data;
+          });
+
+          var auxRetorno: any;
+          for (const usuario of auxUsuarios) {
+            if ((usuario.key as string) === user.uid) {
+              auxRetorno = usuario;
+              break;
+              // console.log('Añadido a la lista proveniente de la base de datos para las reservas');
+            }
+          }
+
+          return auxRetorno;
+        })
+      );
+  }
+
   login(email: string, password: string) {
     return new Promise((resolve, reject) => {
       this.AFauth.auth.signInWithEmailAndPassword(email, password)
@@ -71,9 +109,10 @@ export class AuthService {
           const uid = res.user.uid;
           this.db.collection("usuarios").doc(res.user.uid).set({
             nombre: name,
-            uid: uid
+            uid: uid,
+            tipo: 'cliente'
           })
-          if(file)
+          if (file)
             this.subirFoto(file, res.user.uid)
           resolve(res)
         })
@@ -88,12 +127,12 @@ export class AuthService {
         res.ref.getDownloadURL()
           .then(url => {
             this.updateFotoUsuario(uid, url)
-            .then(res => {
-              console.info("updateFotoUsuario res", res)
-            })
-            .catch(err => {
-              console.info("updateFotoUsuario err", err)
-            })
+              .then(res => {
+                console.info("updateFotoUsuario res", res)
+              })
+              .catch(err => {
+                console.info("updateFotoUsuario err", err)
+              })
           })
           .catch(err => {
             console.info("err");

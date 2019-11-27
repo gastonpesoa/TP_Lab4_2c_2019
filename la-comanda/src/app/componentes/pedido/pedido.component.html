@@ -1,59 +1,30 @@
-<h2>Realizá tu pedido para la {{mesa.codigo}}!</h2>
+<h2>Realizá tu pedido para la mesa {{mesa.numero}}!</h2>
 
 <div class="container">
-    <mat-grid-list cols="2" rowHeight="150px">
-        <mat-grid-tile colspan="1" rowspan="4" style="background:#616161">
+    <mat-grid-list cols="2" rowHeight="80px">
 
-            <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
-                <!-- Nombre Column -->
-                <ng-container matColumnDef="nombre">
-                    <th mat-header-cell *matHeaderCellDef> Nombre </th>
-                    <td mat-cell *matCellDef="let element"> {{element.nombre}} </td>
-                </ng-container>
-                <!-- Precio Column -->
-                <ng-container matColumnDef="precio">
-                    <th mat-header-cell *matHeaderCellDef> Precio </th>
-                    <td mat-cell *matCellDef="let element"> {{element.precio}} </td>
-                </ng-container>
-                <!-- Sector Column -->
-                <ng-container matColumnDef="sector">
-                    <th mat-header-cell *matHeaderCellDef> Sector </th>
-                    <td mat-cell *matCellDef="let element"> {{element.sector}} </td>
-                </ng-container>
-                <!-- Radio Column -->
-                <ng-container matColumnDef="select">
-                    <th mat-header-cell *matHeaderCellDef> Selecciona una opción </th>
-                    <mat-radio-group>
-                        <td mat-cell *matCellDef="let element">
-                            <mat-radio-button [value]="element.id" (change)="setIdMenu(element)"></mat-radio-button>
-                        </td>
-                    </mat-radio-group>
-                </ng-container>
-                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-            </table>
 
+        <mat-grid-tile colspan="1" rowspan="1" style="background:#616161">
+            <h3>Seleccioná tu comida</h3>
         </mat-grid-tile>
 
-        <mat-grid-tile colspan="1" rowspan="4" style="background:#616161">
 
+        <mat-grid-tile colspan="1" rowspan="8" style="background:#616161">
             <mat-card class="example-card form-container">
                 <mat-card-header>
                     <mat-card-title style="color: #ff6e40;">Tu pedido</mat-card-title>
-                    <!-- <mat-card-subtitle>Inicio de sesión</mat-card-subtitle> -->
                 </mat-card-header>
-                <!-- <img mat-card-image src="../../../assets/login-icon.jpg" alt="Photo of a Shiba Inu"> -->
                 <mat-divider></mat-divider>
                 <mat-card-content class="card-content">
                     <div class="example-container">
                         <form [formGroup]="pedidoForm" (ngSubmit)="pedir()" class="needs-validation" novalidate>
                             <mat-form-field>
-                                <input matInput type="text" class="form-control" 
-                                    id="name" placeholder="A nombre de: " [value]="nombreUser" disabled>
+                                <input matInput type="text" class="form-control" id="name" placeholder="A nombre de: "
+                                    [value]="usuario.nombre" disabled>
                             </mat-form-field>
                             <mat-form-field>
-                                <input matInput type="text" class="form-control"
-                                    placeholder="Mesa: " id="codigoMesa" [value]="mesa.codigo" disabled>
+                                <input matInput type="text" class="form-control" placeholder="Mesa: " id="codigoMesa"
+                                    [value]="mesa.key" disabled>
                             </mat-form-field>
                             <mat-form-field>
                                 <input matInput type="text" class="form-control" id="idMenu"
@@ -69,7 +40,80 @@
                     </div>
                 </mat-card-content>
             </mat-card>
-
         </mat-grid-tile>
+
+
+        <mat-grid-tile colspan="1" rowspan="3" style="background:#616161">
+            <table mat-table [dataSource]="dataSourceComidas" class="mat-elevation-z8">
+                <ng-container matColumnDef="nombre">
+                    <th mat-header-cell *matHeaderCellDef> Nombre </th>
+                    <td mat-cell *matCellDef="let element"> {{element.nombre}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="precio">
+                    <th mat-header-cell *matHeaderCellDef> Precio </th>
+                    <td mat-cell *matCellDef="let element"> {{element.precio}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="cantidad">
+                    <th mat-header-cell *matHeaderCellDef> Cantidad </th>
+                    <td mat-cell *matCellDef="let element">
+                        <input matInput type="number" [id]="'cant_'+element.id" value='1' min="1" max="10">
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="select">
+                    <th mat-header-cell *matHeaderCellDef> Selecciona una opción </th>
+                    <mat-radio-group>
+                        <td mat-cell *matCellDef="let element">
+                            <mat-radio-button [value]="element.id" (change)="setIdMenu(element)"></mat-radio-button>
+                        </td>
+                    </mat-radio-group>
+                </ng-container>
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+        </mat-grid-tile>
+
+
+        <mat-grid-tile colspan="1" rowspan="1" style="background:#616161">
+            <h3>Seleccioná tu bebida</h3>
+        </mat-grid-tile>
+
+
+        <mat-grid-tile colspan="1" rowspan="3" style="background:#616161">
+            <table mat-table [dataSource]="dataSourceBebidas" class="mat-elevation-z8">
+
+                <ng-container matColumnDef="nombre">
+                    <th mat-header-cell *matHeaderCellDef> Nombre </th>
+                    <td mat-cell *matCellDef="let element"> {{element.nombre}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="precio">
+                    <th mat-header-cell *matHeaderCellDef> Precio </th>
+                    <td mat-cell *matCellDef="let element"> {{element.precio}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="cantidad">
+                    <th mat-header-cell *matHeaderCellDef> Cantidad </th>
+                    <td mat-cell *matCellDef="let element">
+                        <input matInput type="number" [id]="'cant_'+element.id" value='1' min="1" max="10">
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="select">
+                    <th mat-header-cell *matHeaderCellDef> Selecciona una opción </th>
+                    <mat-radio-group>
+                        <td mat-cell *matCellDef="let element">
+                            <mat-radio-button [value]="element.id" (change)="setIdMenu(element)"></mat-radio-button>
+                        </td>
+                    </mat-radio-group>
+                </ng-container>
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+        </mat-grid-tile>
+
     </mat-grid-list>
+
 </div>

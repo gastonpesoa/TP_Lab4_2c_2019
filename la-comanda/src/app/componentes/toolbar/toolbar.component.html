@@ -4,13 +4,12 @@
   <!-- This fills the remaining space of the current row -->
   <span class="example-fill-remaining-space"></span>
 
-  <div>
+  <!-- <div>
     <span><a [routerLink]="['']">Home</a></span>
     <span><a href="#">Acerca</a></span>
     <span><a href="#">Servicios</a></span>
-  </div>
-  <!-- <span *ngIf="usrName!=''"><button mat-icon-button color="accent">{{usrName}}
-    </button></span> -->
+  </div> -->
+  <span *ngIf="usrName!=''">{{usrName}}</span>
   <span><button mat-icon-button color="accent" (click)="logOut()">
       <mat-icon>exit_to_app</mat-icon>
     </button></span>

@@ -1,0 +1,69 @@
+<div class="container">
+    <mat-grid-list cols="4" rowHeight="95px">
+
+        <mat-grid-tile colspan="3" rowspan="4" style="background:#616161">
+            <!-- <h2>LaComanda</h2> -->
+            <img src="../../../assets/barra.jpg" style="width: 100%;" alt="">
+        </mat-grid-tile>
+
+        <mat-grid-tile colspan="1" rowspan="8" style="background:#616161">
+
+            <mat-list>
+                <mat-list-item *ngIf="puedeSolicitarMesa||puedeGenerarPedido">
+                    <h2>Tu Pedido</h2>
+                </mat-list-item>
+                <mat-list-item *ngIf="puedeSolicitarMesa||puedeGenerarPedido">
+                    <h3>No tienes pedidos</h3>
+                </mat-list-item>
+                <mat-list-item *ngIf="pedidoUser">
+                    <h3>Detalle del pedido</h3>
+                </mat-list-item>
+                <mat-divider></mat-divider>
+            </mat-list>
+        </mat-grid-tile>
+
+        <mat-grid-tile colspan="1" rowspan="4" style="background:#616161;">
+
+            <div *ngIf="esperandoAsignacion">
+                <div class="tu-mesa">
+                    <p style="margin-top: 0;margin-bottom: 40px;">Se te asignará una mesa en unos momentos</p>
+                    <div class="spinner">
+                        <mat-spinner color="warn"></mat-spinner>
+                    </div>
+                </div>
+                <div class="img-cont" style="height: 100%;">
+                    <img src="../../../assets/fork.jpg" style="width: 100%;position: relative;top: 85px;" alt="">
+                </div>
+            </div>
+            <div *ngIf="!esperandoAsignacion&&mesa">
+                <div class="tu-mesa">
+                    <h3 style="margin: 0;">Tu Mesa</h3>
+                    <p style="margin: 0;">Numero: {{mesa.numero}}</p>
+                    <p style="margin-top: 0;margin-bottom: 40px;">Estado: {{mesa.estado}}</p>
+                </div>
+                <div class="img-cont" style="height: 100%;">
+                    <img [src]="mesa.foto" style="width: 100%;" alt="">
+                </div>
+            </div>
+
+        </mat-grid-tile>
+
+        <mat-grid-tile colspan="2" rowspan="4" style="background:#616161;">
+            <div *ngIf="puedeSolicitarMesa">
+                <p>Debes ponerte en la lista de espera para que te asignen una mesa y poder realizar tu pedido</p>
+                <button *ngIf="puedeSolicitarMesa" mat-raised-button color="warn" (click)="solicitarMesa()">Poner en
+                    lista de espera</button>
+            </div>
+            <div *ngIf="!puedeSolicitarMesa&&esperandoAsignacion">
+                <p>Estás en la lista de espera aguardando asignación</p>
+                <button *ngIf="!puedeSolicitarMesa&&esperandoAsignacion" mat-raised-button color="warn"
+                    (click)="cancelarEspera()">Cancelar espera</button>
+            </div>
+            <div *ngIf="puedeGenerarPedido">
+                    <p>Ya tenés tu mesa asignada, podés solicitar tu pedido y ocupar tu mesa</p>
+                    <button mat-raised-button color="warn" (click)="pedir()">Hacer Pedido</button>
+                </div>
+        </mat-grid-tile>
+
+    </mat-grid-list>
+</div>
