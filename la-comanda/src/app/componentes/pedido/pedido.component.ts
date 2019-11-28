@@ -7,6 +7,10 @@ import { SpinnerService } from 'src/app/servicios/spinner.service';
 import { Pedido } from 'src/app/clases/pedido';
 import { FirebaseService } from 'src/app/servicios/firebase.service';
 import { map } from 'rxjs/operators'
+import { diccionario } from 'src/app/clases/diccionario';
+import { ParserService } from 'src/app/servicios/parser.service';
+import { DocumentReference } from '@angular/fire/firestore';
+import { SnackbarService } from 'src/app/servicios/snackbar.service';
 
 export interface Menu {
   id: number;
@@ -23,6 +27,7 @@ export interface Menu {
 })
 export class PedidoComponent implements OnInit {
 
+  public itemsPedido: Array<any>;
   usuario: any;
   idUser;
   nombreUser;
@@ -38,12 +43,15 @@ export class PedidoComponent implements OnInit {
     nombreCliente: new FormControl(''),
     nombreMenu: new FormControl(''),
   });
+  subtotal: number;
+  puedeGuardar: boolean;
 
   constructor(
+    private parseServ: ParserService,
     private fireServ: FirebaseService,
     private route: ActivatedRoute,
     public router: Router,
-    private pedidoServ: PedidoService,
+    public snackBar: SnackbarService,
     public spinner: SpinnerService, ) {
     this.route.queryParams.subscribe(params => {
       if (this.router.getCurrentNavigation().extras.state) {
@@ -56,6 +64,8 @@ export class PedidoComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.spinner.showLoadingSpinner();
+    this.itemsPedido = new Array<any>();
     this.getMenus('cocina').subscribe(res => {
       console.info('cocina', res)
       this.dataSourceComidas = res;
@@ -63,6 +73,7 @@ export class PedidoComponent implements OnInit {
     this.getMenus('barra').subscribe(res => {
       console.info('barra', res)
       this.dataSourceBebidas = res;
+      this.spinner.hideLoadingSpinner();
     });
   }
 
@@ -75,52 +86,108 @@ export class PedidoComponent implements OnInit {
           return data;
         });
         const auxRetorno: Array<any> = new Array<any>();
-          for (const menu of auxMenus) {
-            if ((menu.tipo as string) === tipo) {
-              auxRetorno.push(menu);
-            }
+        for (const menu of auxMenus) {
+          if ((menu.tipo as string) === tipo) {
+            auxRetorno.push(menu);
           }
-          return auxRetorno;
+        }
+        return auxRetorno;
       })
     );
   }
 
+  agregarAlPedido(element) {
+    var inputValue = (<HTMLInputElement>document.getElementById("cant_" + element.id)).value;
+    const idProducto = element.id;
+    const cantidad = parseInt(inputValue, 10);
+
+    // Si existe solo sumo la cantidad al pedido
+    let productoYaElegido = false;
+    this.itemsPedido.forEach(item => {
+      if (item.idProducto == idProducto) {
+        item.cantidad += cantidad;
+        productoYaElegido = true;
+      }
+    });
+
+    // // Si no existe lo agrego al pedido
+    var dateNow = new Date();
+    if (!productoYaElegido) {
+      const productoAAgregar = {
+        cantidad,
+        nombre: element.nombre,
+        idProducto: element.id,
+        tipo: element.tipo,
+        estado: diccionario.estados_productos.en_preparacion,
+        precio: element.precio,
+        tiempoElaboracion: element.tiempo,
+        // Este es el tiempo de entrega hecho en date
+        entrega: this.parseServ.parseDateTimeToStringDateTime(
+          new Date(dateNow.getTime() + element.tiempo * 60000)
+        )
+      }
+      this.itemsPedido.push(productoAAgregar);
+      console.info("se agrega producto ", productoAAgregar, "al los pedidos", this.itemsPedido);
+    }
+    this.subtotal = 0;
+    this.itemsPedido.forEach(item => {
+      this.subtotal += (item.cantidad * item.precio);
+    })
+    this.puedeGuardar = true;
+  }
+
+  sacarItem(idPruducto) {
+    this.itemsPedido = this.itemsPedido.filter(
+      item => item.idProducto !== idPruducto
+    );
+    this.subtotal = 0;
+    this.itemsPedido.forEach(item => {
+      this.subtotal += (item.cantidad * item.precio);
+    })
+    if (this.itemsPedido.length < 1) {
+      this.puedeGuardar = false;
+    }
+  }
+
+  puedeGuardarPedido() {
+    return this.puedeGuardar && this.mesa != '';
+  }
+
   pedir() {
     this.spinner.showLoadingSpinner();
-    const pedido = new Pedido();
-    this.pedidoForm.controls['nombreCliente'].setValue(this.nombreUser);
-    this.pedidoForm.controls['codigoMesa'].setValue(this.mesa.codigo);
-    pedido.idMenu = this.pedidoForm.value.idMenu;
-    pedido.codigoMesa = this.pedidoForm.value.codigoMesa;
-    pedido.nombreCliente = this.nombreUser;
-    console.info("pedido", pedido);
-    console.info("pedido form", this.pedidoForm.value);
-    this.pedidoServ.register(pedido).subscribe(
-      (res) => {
-        console.info("res", res);
-        this.spinner.hideLoadingSpinner();
-      },
-      (error) => {
-        console.error(error);
-        this.spinner.hideLoadingSpinner();
-      }
-    )
+    if (!this.puedeGuardar) {
+      return;
+    }
+
+    let pedido = {
+      productoPedido: this.itemsPedido,
+      mesa: this.mesa.key,
+      mesaNumero: this.mesa.numero,
+      mesaFoto: this.mesa.foto,
+      cliente: this.usuario.uid,
+      clienteNombre: this.usuario.nombre,
+      estado: diccionario.estados_pedidos.solicitado,
+      subtotal: this.subtotal
+    }
+    console.log("pedido", pedido)
+
+    this.fireServ.crear('pedidos', pedido)
+      .then((pedido: DocumentReference) => {
+        this.fireServ.actualizar('mesas', this.mesa.key, {
+          estado: diccionario.estados_mesas.ocupada
+        }).then(()=>{
+          this.spinner.hideLoadingSpinner();
+          this.router.navigate(['/home-cliente'])
+          this.snackBar.openSnackBar("Pedido registrado, puede hacer el seguimiento del mismo", "Cerrar");
+        })
+      });
   }
 
-  getUsrName() {
-    // const usrData = this.authServ.decodeToken();
-    // this.nombreUser = usrData.data.username;
-    // this.idUser = usrData.data.id;
-  }
-
-  getErrorMessage() {
-    return this.pedidoForm.hasError('required') ? 'Debe ingresar un valor' : '';
-  }
-
-  setIdMenu(menu) {
-    console.info("menu", menu);
-    this.pedidoForm.controls['idMenu'].setValue(menu.id);
-    this.pedidoForm.controls['nombreMenu'].setValue(menu.nombre);
+  cancel() {
+    this.subtotal = 0;
+    this.puedeGuardar = false;
+    this.itemsPedido = new Array<any>();
+    this.router.navigate(['/home-cliente'])
   }
 }
 

@@ -1,0 +1,121 @@
+<h2>Lista de pedidos para mozo</h2>
+
+<div class="container">
+    <mat-grid-list cols="3" rowHeight="600px">
+        <mat-grid-tile colspan="1" rowspan="8">
+            <div class="align-initial" *ngIf="pedidosSolicitados">
+                <h3>Pedidos solicitados</h3>
+                <mat-card class="example-card form-container" *ngFor="let item of pedidosSolicitados">
+                    <mat-card-header>
+                        <mat-card-title style="color: #ff6e40;">Mesa número: {{item.mesaNumero}}</mat-card-title>
+                        <mat-card-subtitle>Cliente: {{item.clienteNombre}} </mat-card-subtitle>
+                    </mat-card-header>
+                    <mat-divider></mat-divider>
+                    <mat-card-content class="card-content">
+                        <div class="example-container">
+                            <h3 matLine>Detalle del pedido: </h3>
+                            <mat-list>
+                                <mat-list-item *ngFor="let prod of item.productoPedido">
+                                    <span> {{prod.cantidad}}x {{prod.nombre}} <br />
+                                        <b style="color:#69f0ae;"> {{prod.precio * prod.cantidad | currency}}</b></span>
+                                </mat-list-item>
+                                <mat-divider></mat-divider>
+                                <mat-list-item class="subtotal-item">
+                                    <span style="color: #ff6e40;"><b>Subtotal </b></span>
+                                    <div style="color:#69f0ae;" class="align-right">
+                                        <b>{{item.subtotal | currency}}</b> </div>
+                                </mat-list-item>
+                                <mat-divider></mat-divider>
+                                <mat-list-item>
+                                    <span><button mat-raised-button color="warn" (click)="cancelar(item.id)">Eliminar
+                                            <mat-icon>clear
+                                            </mat-icon></button></span>
+                                    <span> <button mat-raised-button color="accent" (click)="aceptar(item.id)">Aceptar
+                                            <mat-icon>
+                                                done
+                                            </mat-icon></button>
+                                    </span>
+                                </mat-list-item>
+                            </mat-list>
+                        </div>
+                    </mat-card-content>
+                </mat-card>
+            </div>
+        </mat-grid-tile>
+        <mat-grid-tile colspan="1" rowspan="8">
+            <div class="align-initial">
+                <h3>Pedidos listos</h3>
+                <mat-card class="example-card form-container" *ngFor="let item of pedidosListos">
+                    <mat-card-header>
+                        <mat-card-title style="color: #ff6e40;">Mesa número: {{item.mesaNumero}}</mat-card-title>
+                        <mat-card-subtitle>Cliente: {{item.clienteNombre}} </mat-card-subtitle>
+                    </mat-card-header>
+                    <mat-divider></mat-divider>
+                    <mat-card-content class="card-content">
+                        <div class="example-container">
+                            <h3 matLine>Detalle del pedido: </h3>
+                            <mat-list>
+                                <mat-list-item *ngFor="let prod of item.productoPedido">
+                                    <span> {{prod.cantidad}}x {{prod.nombre}} <br />
+                                        <b style="color:#69f0ae;"> {{prod.precio * prod.cantidad | currency}}</b></span>
+                                </mat-list-item>
+                                <mat-divider></mat-divider>
+                                <mat-list-item class="subtotal-item">
+                                    <span style="color: #ff6e40;"><b>Subtotal </b></span>
+                                    <div style="color:#69f0ae;" class="align-right">
+                                        <b>{{item.subtotal | currency}}</b> </div>
+                                </mat-list-item>
+                                <mat-divider></mat-divider>
+                                <mat-list-item>
+                                    <span> <button mat-raised-button color="accent" (click)="entregar(item.id)">Entregar
+                                            <mat-icon>
+                                                done
+                                            </mat-icon></button>
+                                    </span>
+                                </mat-list-item>
+                            </mat-list>
+                        </div>
+                    </mat-card-content>
+                </mat-card>
+            </div>
+        </mat-grid-tile>
+        <mat-grid-tile colspan="1" rowspan="8">
+            <div class="align-initial">
+                <h3>Pedidos cuenta</h3>
+                <mat-card class="example-card form-container" *ngFor="let item of pedidosCuenta">
+                    <mat-card-header>
+                        <mat-card-title style="color: #ff6e40;">Mesa número: {{item.mesaNumero}}</mat-card-title>
+                        <mat-card-subtitle>Cliente: {{item.clienteNombre}} </mat-card-subtitle>
+                    </mat-card-header>
+                    <mat-divider></mat-divider>
+                    <mat-card-content class="card-content">
+                        <div class="example-container">
+                            <h3 matLine>Detalle del pedido: </h3>
+                            <mat-list>
+                                <mat-list-item *ngFor="let prod of item.productoPedido">
+                                    <span> {{prod.cantidad}}x {{prod.nombre}} <br />
+                                        <b style="color:#69f0ae;"> {{prod.precio * prod.cantidad | currency}}</b></span>
+                                </mat-list-item>
+                                <mat-divider></mat-divider>
+                                <mat-list-item class="subtotal-item">
+                                    <span style="color: #ff6e40;"><b>Subtotal </b></span>
+                                    <div style="color:#69f0ae;" class="align-right">
+                                        <b>{{item.subtotal | currency}}</b> </div>
+                                </mat-list-item>
+                                <mat-divider></mat-divider>
+                                <mat-list-item>
+                                    <span> <button mat-raised-button color="accent" (click)="confirmarYCerrar(item)">Confirmar
+                                            pago y cerrar mesa
+                                            <mat-icon>
+                                                done
+                                            </mat-icon></button>
+                                    </span>
+                                </mat-list-item>
+                            </mat-list>
+                        </div>
+                    </mat-card-content>
+                </mat-card>
+            </div>
+        </mat-grid-tile>
+    </mat-grid-list>
+</div>

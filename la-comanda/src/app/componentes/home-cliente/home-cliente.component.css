@@ -16,6 +16,36 @@
     padding: 19px;
 }
 
+.titulo{
+    width: 100%;
+    border-radius: 10px;
+    background-color: #616161;
+    position: absolute;
+    top: 0;
+    color: #ffffff;
+    text-align: left;
+    z-index: 999;
+    padding: 10px 10px 10px 50px;
+}
+
 mat-spinner{
     left: 98%;
 }
+
+mat-grid-tile{
+    border-radius: 10px;
+}
+
+mat-card{
+    position: absolute;
+    top: 88px;
+}
+
+.align-right{
+    position: absolute;
+    right: 14px;
+  }
+
+  button{
+    margin-left: 10px;
+  }

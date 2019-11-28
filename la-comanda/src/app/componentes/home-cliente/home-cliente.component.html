@@ -2,28 +2,45 @@
     <mat-grid-list cols="4" rowHeight="95px">
 
         <mat-grid-tile colspan="3" rowspan="4" style="background:#616161">
-            <!-- <h2>LaComanda</h2> -->
+            <div class="titulo">
+                <h1 style="margin: 0;">Solicitud y seguimiento de pedidos</h1>
+            </div>
             <img src="../../../assets/barra.jpg" style="width: 100%;" alt="">
         </mat-grid-tile>
 
         <mat-grid-tile colspan="1" rowspan="8" style="background:#616161">
 
-            <mat-list>
-                <mat-list-item *ngIf="puedeSolicitarMesa||puedeGenerarPedido">
-                    <h2>Tu Pedido</h2>
-                </mat-list-item>
-                <mat-list-item *ngIf="puedeSolicitarMesa||puedeGenerarPedido">
-                    <h3>No tienes pedidos</h3>
-                </mat-list-item>
-                <mat-list-item *ngIf="pedidoUser">
-                    <h3>Detalle del pedido</h3>
-                </mat-list-item>
+            <h3 *ngIf="puedeSolicitarMesa||puedeGenerarPedido">No tienes pedidos</h3>
+
+            <mat-card class="example-card form-container" *ngIf="puedeVerPedidoORealizarEncuesta">
+                <mat-card-header>
+                    <mat-card-title style="color: #ff6e40;">Mi Pedido</mat-card-title>
+                </mat-card-header>
                 <mat-divider></mat-divider>
-            </mat-list>
+                <mat-card-content class="card-content">
+                    <div class="example-container">
+                        <mat-list>
+                            <mat-list-item *ngFor="let prod of pedidoUser[0].productoPedido">
+                                <span> {{prod.cantidad}}x {{prod.nombre}} <br />
+                                    <b style="color:#69f0ae;"> {{prod.precio * prod.cantidad | currency}}</b></span>
+                            </mat-list-item>
+                            <mat-divider></mat-divider>
+                            <mat-list-item class="subtotal-item">
+                                <span style="color: #ff6e40;"><b>Subtotal </b></span>
+                                <div style="color:#69f0ae;" class="align-right">
+                                    <b>{{pedidoUser[0].subtotal | currency}}</b> </div>
+                            </mat-list-item>
+                        </mat-list>
+                    </div>
+                </mat-card-content>
+            </mat-card>
         </mat-grid-tile>
 
         <mat-grid-tile colspan="1" rowspan="4" style="background:#616161;">
 
+            <div class="img-cont" style="height: 100%;" *ngIf="puedeSolicitarMesa">
+                <img src="../../../assets/fork.jpg" style="width: 100%;position: relative;top: 0px;" alt="">
+            </div>
             <div *ngIf="esperandoAsignacion">
                 <div class="tu-mesa">
                     <p style="margin-top: 0;margin-bottom: 40px;">Se te asignará una mesa en unos momentos</p>
@@ -37,7 +54,7 @@
             </div>
             <div *ngIf="!esperandoAsignacion&&mesa">
                 <div class="tu-mesa">
-                    <h3 style="margin: 0;">Tu Mesa</h3>
+                    <h3 style="margin: 0;">Mi Mesa</h3>
                     <p style="margin: 0;">Numero: {{mesa.numero}}</p>
                     <p style="margin-top: 0;margin-bottom: 40px;">Estado: {{mesa.estado}}</p>
                 </div>
@@ -60,9 +77,30 @@
                     (click)="cancelarEspera()">Cancelar espera</button>
             </div>
             <div *ngIf="puedeGenerarPedido">
-                    <p>Ya tenés tu mesa asignada, podés solicitar tu pedido y ocupar tu mesa</p>
-                    <button mat-raised-button color="warn" (click)="pedir()">Hacer Pedido</button>
+                <p>Ya tenés tu mesa asignada, podés solicitar tu pedido y ocupar tu mesa</p>
+                <button mat-raised-button color="warn" (click)="pedir()">Hacer Pedido</button>
+            </div>
+            <div *ngIf="pedidoUser">
+
+                <div *ngIf="puedeVerPedidoORealizarEncuesta&&pedidoUser[0].estado!='entregado por el mozo'&&pedidoUser[0].estado!='entregado'&&pedidoUser[0].estado!='cuenta'&&pedidoUser[0].estado!='cerrado'">
+                    <p>Tu pedido se encuntra <b style="color:#69f0ae;">{{pedidoUser[0].estado}}</b>, podés realizar una
+                        encuesta de satisfacción.</p>
+                    <button *ngIf="puedeHacerEncuesta" mat-raised-button color="accent" (click)="encuesta()">Hacer Encuesta</button>
                 </div>
+                <div *ngIf="pedidoUser[0].estado=='entregado por el mozo'">
+                    <p>Tu pedido se ha entregado, confirmá la entrega.</p>
+                    <button *ngIf="puedeHacerEncuesta" mat-raised-button color="accent" (click)="encuesta()">Hacer Encuesta</button>
+                    <button mat-raised-button color="warn" (click)="confirmarEntrega()">Confirmar Entrega</button>
+                </div>
+                <div *ngIf="pedidoUser[0].estado=='entregado'">
+                    <p>Disfrutá de tu pedido, podés pagar la cuenta.</p>
+                    <button *ngIf="puedeHacerEncuesta" mat-raised-button color="accent" (click)="encuesta()">Hacer Encuesta</button>
+                    <button mat-raised-button color="warn" (click)="pagar()">Pagar Cuenta</button>
+                </div>
+                <div *ngIf="pedidoUser[0].estado=='cuenta'">
+                    <p>Gracias, te esperamos nuevamente.</p>
+                </div>
+            </div>
         </mat-grid-tile>
 
     </mat-grid-list>

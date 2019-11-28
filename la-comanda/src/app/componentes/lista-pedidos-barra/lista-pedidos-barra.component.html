@@ -1,0 +1,72 @@
+<h2>Lista de pedidos para barra</h2>
+
+<div class="container">
+    <mat-grid-list cols="2" rowHeight="600px">
+        <mat-grid-tile colspan="1" rowspan="8">
+            <div class="align-initial" *ngIf="pedidosPendientes">
+                <h3>Pedidos pendientes</h3>
+                <mat-card class="example-card form-container" *ngFor="let item of pedidosPendientes">
+                    <mat-card-header>
+                        <mat-card-title style="color: #ff6e40;">Mesa número: {{item.mesaNumero}}</mat-card-title>
+                        <mat-card-subtitle>Cliente: {{item.clienteNombre}} </mat-card-subtitle>
+                    </mat-card-header>
+                    <mat-divider></mat-divider>
+                    <mat-card-content class="card-content">
+                        <div class="example-container">
+                            <h3 matLine>Detalle del pedido: </h3>
+                            <mat-list>
+                                <mat-list-item *ngFor="let prod of item.productoPedido">
+                                    <div *ngIf="prod.tipo=='barra'">
+                                        <span> {{prod.cantidad}}x {{prod.nombre}} <br /></span>
+                                        <span> {{prod.tiempoElaboracion}} min<br /></span>
+                                    </div>
+                                </mat-list-item>
+                                <mat-divider></mat-divider>
+                                <mat-list-item>
+                                    <span> <button mat-raised-button color="accent" (click)="tomar(item)">Tomar
+                                            <mat-icon>
+                                                done
+                                            </mat-icon></button>
+                                    </span>
+                                </mat-list-item>
+                            </mat-list>
+                        </div>
+                    </mat-card-content>
+                </mat-card>
+            </div>
+        </mat-grid-tile>
+        <mat-grid-tile colspan="1" rowspan="8">
+            <div class="align-initial">
+                <h3>Pedidos tomados</h3>
+                <mat-card class="example-card form-container" *ngFor="let item of pedidosTomados">
+                    <mat-card-header>
+                        <mat-card-title style="color: #ff6e40;">Mesa número: {{item.mesaNumero}}</mat-card-title>
+                        <mat-card-subtitle>Cliente: {{item.clienteNombre}} </mat-card-subtitle>
+                    </mat-card-header>
+                    <mat-divider></mat-divider>
+                    <mat-card-content class="card-content">
+                        <div class="example-container">
+                            <h3 matLine>Detalle del pedido: </h3>
+                            <mat-list>
+                                <mat-list-item *ngFor="let prod of item.productoPedido">
+                                    <div *ngIf="prod.tipo=='barra'">
+                                        <span> {{prod.cantidad}}x {{prod.nombre}} <br /></span>
+                                        <span> {{prod.tiempoElaboracion}} min<br /></span>
+                                    </div>
+                                </mat-list-item>
+                                <mat-divider></mat-divider>
+                                <mat-list-item>
+                                    <span> <button mat-raised-button color="accent" (click)="entregar(item)">Entregar
+                                            <mat-icon>
+                                                done
+                                            </mat-icon></button>
+                                    </span>
+                                </mat-list-item>
+                            </mat-list>
+                        </div>
+                    </mat-card-content>
+                </mat-card>
+            </div>
+        </mat-grid-tile>
+    </mat-grid-list>
+</div>

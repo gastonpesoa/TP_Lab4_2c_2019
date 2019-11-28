@@ -1,0 +1,25 @@
+.mat-list-base .mat-list-item .mat-list-avatar, .mat-list-base .mat-list-option .mat-list-avatar {
+    width: 100px;
+    height: 100px;
+}
+
+button{
+    margin-right: 10px;
+}
+
+mat-card{
+    width: 100%;
+    border-radius: 10px;
+    background-color: #616161;
+    margin-bottom: 2em;
+}
+
+.align-right{
+    position: absolute;
+    right: 14px;
+  }
+
+.align-initial {
+    position: absolute;
+    top: 0;
+  }

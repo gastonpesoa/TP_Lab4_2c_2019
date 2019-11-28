@@ -27,6 +27,7 @@ export class ListaEsperaComponent implements OnInit {
     private db: AngularFirestore) { }
 
   ngOnInit() {
+    this.spinnerServ.showLoadingSpinner();
     this.getListaEsperaPendientes().subscribe(res =>{
       console.info("lista espera", res);
       this.listaEsperaPendientes = res;
@@ -34,6 +35,7 @@ export class ListaEsperaComponent implements OnInit {
     this.getMesasLibres().subscribe(res => {
       console.info("mesas libres", res);
       this.mesasLibres = res;
+      this.spinnerServ.hideLoadingSpinner();
     })
   }
 

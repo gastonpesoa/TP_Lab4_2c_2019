@@ -1,0 +1,58 @@
+<div class="container">
+    <mat-card class="example-card form-container">
+        <mat-card-header>
+            <mat-card-title style="color: #ff6e40;">Encuesta La Comanda</mat-card-title>
+        </mat-card-header>
+        <mat-divider></mat-divider>
+        <mat-card-content>
+            <div class="example-container">
+                <form [formGroup]="encuestaForm" (ngSubmit)="encuesta()" class="needs-validation" novalidate>
+
+                    <div>
+                        <label for="">¿Ya habías venido?</label>
+                        <mat-radio-group name="primeraVez" formControlName="primeraVez">
+                            <mat-radio-button value="Si">Si</mat-radio-button>
+                            <mat-radio-button value="No">No</mat-radio-button>
+                        </mat-radio-group>
+                    </div>
+
+                    <div>
+                        <label for="">¿Cómo calificarías el servicio?</label>
+                        <mat-radio-group name="servicio" formControlName="servicio">
+                            <mat-radio-button value="Malo">Malo</mat-radio-button>
+                            <mat-radio-button value="Regular">Regular</mat-radio-button>
+                            <mat-radio-button value="Bueno">Bueno</mat-radio-button>
+                        </mat-radio-group>
+                    </div>
+                    <div>
+                        <label for="">¿Que te pareció la comida?</label>
+                        <mat-radio-group name="comida" formControlName="comida">
+                            <mat-radio-button value="Mala">Mala</mat-radio-button>
+                            <mat-radio-button value="Regular">Regular</mat-radio-button>
+                            <mat-radio-button value="Buena">Buena</mat-radio-button>
+                        </mat-radio-group>
+                    </div>
+                    <div>
+                        <label for="">¿Que te pareció el estado de la mesa?</label>
+                        <mat-radio-group name="mesa" formControlName="mesa">
+                            <mat-radio-button value="Mala">Mala</mat-radio-button>
+                            <mat-radio-button value="Regular">Regular</mat-radio-button>
+                            <mat-radio-button value="Buena">Buena</mat-radio-button>
+                        </mat-radio-group>
+                    </div>
+
+                    <mat-form-field>
+                        <input matInput formControlName="comentarios" type="text" class="form-control" id="comentarios"
+                            placeholder="Dejá tus comentarios: ">
+                    </mat-form-field>
+                    <button mat-raised-button color="warn" type="submit" class="btn btn-primary"
+                        [disabled]="!encuestaForm.valid">Envíar
+                        encuesta</button>
+                </form>
+            </div>
+        </mat-card-content>
+    </mat-card>
+</div>
+
+
+<!--  -->

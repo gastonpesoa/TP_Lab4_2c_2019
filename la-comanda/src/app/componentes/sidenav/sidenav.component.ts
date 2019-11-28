@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Observable } from 'rxjs';
 import { AuthService } from 'src/app/servicios/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-sidenav',
@@ -13,7 +14,8 @@ export class SidenavComponent implements OnInit {
   opened: boolean = false;
   pages = [];
 
-  constructor(private authService: AuthService) { }
+  constructor(private router: Router,
+    private authService: AuthService) { }
 
   ngOnInit() {
     this.isLoggedIn$ = this.authService.isLoggedIn;
@@ -26,6 +28,10 @@ export class SidenavComponent implements OnInit {
 
   logOut() {
     this.authService.logOut();
+  }
+
+  goTo(path: string) {
+    this.router.navigate([path]);
   }
 
   getMenu() {
@@ -41,11 +47,41 @@ export class SidenavComponent implements OnInit {
       switch (usrData.tipo) {
         case 'admin':
           this.pages.push(
+            // {
+            //   title: 'Alta de Usuario',
+            //   url: '/alta-usuario',
+            //   icon: 'add'
+            // },
             {
-              title: 'Alta de Usuario',
-              url: '/alta-usuario',
+              title: 'Lista de espera',
+              url: '/lista-espera',
+              icon: 'list'
+            },
+            {
+              title: 'Pedir',
+              url: '/home-cliente',
               icon: 'add'
-            }
+            },
+            {
+              title: 'Lista de pedidos',
+              url: '/lista-pedidos',
+              icon: 'list'
+            },
+            {
+              title: 'Lista de pedidos de cocina',
+              url: '/lista-pedidos-cocina',
+              icon: 'list'
+            },
+            {
+              title: 'Lista de pedidos de barra',
+              url: '/lista-pedidos-barra',
+              icon: 'list'
+            },
+            {
+              title: 'Encuesta',
+              url: '/encuesta',
+              icon: 'create'
+            },
           )
           break;
         case 'socio':
@@ -63,18 +99,33 @@ export class SidenavComponent implements OnInit {
               title: 'Lista de espera',
               url: '/lista-espera',
               icon: 'list'
+            },
+            {
+              title: 'Lista de pedidos',
+              url: '/lista-pedidos',
+              icon: 'list'
             }
           )
           break;
         case 'cocinero':
-
+          this.pages.push(
+            {
+              title: 'Lista de pedidos de cocina',
+              url: '/lista-pedidos-cocina',
+              icon: 'list'
+            },
+          )
           break;
         case 'bartender':
-
+          this.pages.push(
+            {
+              title: 'Lista de pedidos de barra',
+              url: '/lista-pedidos-barra',
+              icon: 'list'
+            },
+          )
           break;
-        case 'cervecero':
 
-          break;
         case 'cliente':
           this.pages.push(
             {

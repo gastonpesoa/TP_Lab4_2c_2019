@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { AngularFirestoreCollection, AngularFirestore, DocumentReference, QueryFn, DocumentChangeAction } from '@angular/fire/firestore';
 import { AngularFireStorage, AngularFireUploadTask } from '@angular/fire/storage';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+
 
 @Injectable({
   providedIn: 'root'
@@ -43,6 +45,16 @@ export class FirebaseService {
       .collection(path)
       .doc(doc)
       .update(valor);
+  }
+
+  getCollection(collection) {
+    return this.db.collection(collection).snapshotChanges().pipe(map(res => {
+      return res.map(a => {
+        const data: any = a.payload.doc.data();
+        data.id = a.payload.doc.id;
+        return data;
+      })
+    }))
   }
 
 }

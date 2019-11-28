@@ -26,7 +26,11 @@ import { AltaUserComponent } from './componentes/alta-user/alta-user.component';
 import { PedidoComponent } from './componentes/pedido/pedido.component';
 import { firebaseConfig } from '../environments/environment';
 import { HomeClienteComponent } from './componentes/home-cliente/home-cliente.component';
-import { ListaEsperaComponent } from './componentes/lista-espera/lista-espera.component'
+import { ListaEsperaComponent } from './componentes/lista-espera/lista-espera.component';
+import { ListaPedidosComponent } from './componentes/lista-pedidos/lista-pedidos.component';
+import { ListaPedidosCocinaComponent } from './componentes/lista-pedidos-cocina/lista-pedidos-cocina.component';
+import { ListaPedidosBarraComponent } from './componentes/lista-pedidos-barra/lista-pedidos-barra.component';
+import { EncuestaComponent } from './componentes/encuesta/encuesta.component'
 
 
 export function tokenGetter() {
@@ -45,7 +49,11 @@ export function tokenGetter() {
     AltaUserComponent,
     PedidoComponent,
     HomeClienteComponent,
-    ListaEsperaComponent
+    ListaEsperaComponent,
+    ListaPedidosComponent,
+    ListaPedidosCocinaComponent,
+    ListaPedidosBarraComponent,
+    EncuestaComponent
   ],
   imports: [
     BrowserModule,

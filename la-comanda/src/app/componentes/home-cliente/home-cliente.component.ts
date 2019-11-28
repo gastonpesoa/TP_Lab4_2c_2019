@@ -9,6 +9,7 @@ import { FirebaseService } from 'src/app/servicios/firebase.service';
 import { SnackbarService } from 'src/app/servicios/snackbar.service';
 import { Router, NavigationExtras } from '@angular/router';
 
+
 @Component({
   selector: 'app-home-cliente',
   templateUrl: './home-cliente.component.html',
@@ -18,7 +19,7 @@ export class HomeClienteComponent implements OnInit {
   userListaEspera: any;
   usuario: any;
   puedeSolicitarMesa: boolean;
-  puedeVerPedidoORealizarEncueta: boolean;
+  puedeVerPedidoORealizarEncuesta: boolean;
   esperandoAsignacion: boolean;
   clienteAceptado: boolean;
   userMesa: any;
@@ -28,6 +29,8 @@ export class HomeClienteComponent implements OnInit {
   pedidoUser: any = null;
   flagEstaActivo: boolean;
   listaEsperaId: any;
+  cuentaSolicitada: boolean = false;
+  puedeHacerEncuesta: boolean = true;
 
   constructor(
     public router: Router,
@@ -40,6 +43,7 @@ export class HomeClienteComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.spinnerServ.showLoadingSpinner();
     this.authServ.getUserData().subscribe(res => {
       this.usuario = res;
       this.inicioPagina();
@@ -60,13 +64,10 @@ export class HomeClienteComponent implements OnInit {
 
           const auxRetorno: Array<any> = new Array<any>();
           for (const user of auxUsers) {
-            // console.log(user, valor);
             if ((user.clienteId as string) === valor) {
               auxRetorno.push(user);
-              // console.log('Añadido a la lista proveniente de la base de datos para lista de espera');
             }
           }
-
           return auxRetorno;
         })
       );
@@ -91,7 +92,6 @@ export class HomeClienteComponent implements OnInit {
               break;
             }
           }
-
           return auxRetorno;
         })
       );
@@ -108,11 +108,10 @@ export class HomeClienteComponent implements OnInit {
             data.key = a.payload.doc.id;
             return data;
           });
-
-          var auxRetorno: any;
+          const auxRetorno: Array<any> = new Array<any>();
           for (const pedido of auxPedido) {
-            if ((pedido.cliente as string) === valor) {
-              auxRetorno = pedido;
+            if ((pedido.cliente as string) === valor && pedido.estado != 'cerrado') {
+              auxRetorno.push(pedido);
               break;
             }
           }
@@ -123,41 +122,38 @@ export class HomeClienteComponent implements OnInit {
 
   public inicioPagina() {
 
-    this.spinnerServ.showLoadingSpinner();
-
     //Revisa listado de mesas - Se busca la que tenga asignada el cliente
     this.userMesa = this.traerUserMesa(
       this.usuario.uid
     ).subscribe((mesaDeUser) => {
-
+      this.mesa = null;
       if (mesaDeUser != undefined) {
-
         //El cliente tiene una mesa relacionada
-        this.mesa = mesaDeUser;
 
+        this.mesa = mesaDeUser;
         if (mesaDeUser.estado === diccionario.estados_mesas.asignada) {
 
           //El cliente tiene mesa asignada
           console.log('El cliente tiene mesa asignada', this.mesa);
           this.puedeGenerarPedido = true;
-          this.puedeVerPedidoORealizarEncueta = false;
+          this.puedeVerPedidoORealizarEncuesta = false;
           this.esperandoAsignacion = false;
         }
 
         if (mesaDeUser.estado === diccionario.estados_mesas.ocupada) {
+
           // El cliente esta acupando una mesa
-
           this.userPedidos = this.traerUserPedidos(
-            this.usuario.id
+            this.usuario.uid
           ).subscribe((pedidoDeUser) => {
+            this.pedidoUser = null;
             console.log('Registro de pedido del usuario', pedidoDeUser);
-
             if (pedidoDeUser != undefined) {
+
               // El cliente tiene un pedido
               console.log('El cliente tiene pedido');
-
               this.pedidoUser = pedidoDeUser;
-              this.puedeVerPedidoORealizarEncueta = true;
+              this.puedeVerPedidoORealizarEncuesta = true;
               this.puedeGenerarPedido = false;
               this.puedeSolicitarMesa = false;
               this.esperandoAsignacion = false;
@@ -184,7 +180,7 @@ export class HomeClienteComponent implements OnInit {
         console.log('El cliente no está en la lista de espera');
         if (this.mesa == null) {
           this.puedeSolicitarMesa = true;
-          this.puedeVerPedidoORealizarEncueta = false;
+          this.puedeVerPedidoORealizarEncuesta = false;
           this.esperandoAsignacion = false;
         }
         this.spinnerServ.hideLoadingSpinner();
@@ -233,7 +229,7 @@ export class HomeClienteComponent implements OnInit {
       })
   }
 
-  pedir(){
+  pedir() {
     let navigationExtras: NavigationExtras = {
       state: {
         usuario: this.usuario,
@@ -241,6 +237,44 @@ export class HomeClienteComponent implements OnInit {
       }
     };
     this.router.navigate(['/pedido'], navigationExtras);
+  }
+
+  encuesta(){
+    this.puedeHacerEncuesta = false;
+    this.router.navigate(['encuesta']);
+  }
+
+  confirmarEntrega() {
+    this.spinnerServ.showLoadingSpinner();
+    console.log("this.pedidoUser", this.pedidoUser)
+    console.log("this.pedidoUser key", this.pedidoUser[0].key)
+    this.firebaseServ.actualizar('pedidos', this.pedidoUser[0].key, {
+      estado: diccionario.estados_pedidos.entregado
+    }).then(() => {
+      this.spinnerServ.hideLoadingSpinner();
+      this.snackBar.openSnackBar(
+        'Que disfrutes tu pedido.', 'Cerrar'
+      );
+    })
+  }
+
+  pagar() {
+    this.spinnerServ.showLoadingSpinner();
+    console.log("this.pedidoUser", this.pedidoUser)
+    this.firebaseServ.actualizar('pedidos', this.pedidoUser[0].key, {
+      estado: diccionario.estados_pedidos.cuenta
+    }).then(() => {
+      this.cuentaSolicitada = true;
+      // this.mesa = null;
+      // this.pedidoUser = null;
+      // this.puedeSolicitarMesa = true;
+      // this.puedeVerPedidoORealizarEncuesta = false;
+      // this.esperandoAsignacion = false;
+      this.spinnerServ.hideLoadingSpinner();
+      this.snackBar.openSnackBar(
+        'Gracias.', 'Cerrar'
+      );
+    })
   }
 
 }

@@ -5,6 +5,7 @@ import { UserService } from 'src/app/servicios/user.service';
 import { MesaService } from 'src/app/servicios/mesa.service';
 import { Router } from '@angular/router';
 import { SnackbarService } from 'src/app/servicios/snackbar.service';
+import { AngularFirestore } from '@angular/fire/firestore';
 
 
 export interface Mesa {
@@ -20,7 +21,7 @@ export interface Mesa {
 })
 export class HomeComponent implements OnInit {
 
-  mesas: Mesa[] = [];
+  mesas: any[] = [];
 
   constructor(
     private mesaServ: MesaService,
@@ -28,21 +29,12 @@ export class HomeComponent implements OnInit {
     public snackBar: SnackbarService) { }
 
   ngOnInit() {
-    // this.mesaServ.list().subscribe(res => {
-    //   console.info("mesas", res)
-    //   this.mesas = res;
-    // })
+    return this.mesaServ.getMesas().subscribe(res => {
+      console.info('mesas', res);
+      this.mesas = res
+    })
   }
 
-  tomarMesa(mesa) {
-    if (mesa.estado == 'cerrada') {
-      this.router.navigate(['/pedido'], {
-        state: { data: mesa }
-      });
-    } else {
-      this.snackBar.openSnackBar("Seleccione una mesa disponible", "")
-    }
 
-  }
 
 }

@@ -22,10 +22,9 @@ export class LoginComponent implements OnInit {
     { id: 2, nombre: "cocinero", clave: "cocinero123", email: "cocinero@cocinero.com" },
     { id: 3, nombre: "mozo", clave: "mozo123", email: "mozo@mozo.com" },
     { id: 4, nombre: "bartender", clave: "bartender123", email: "bartender@bartender.com" },
-    { id: 5, nombre: "cervecero", clave: "cervecero123", email: "cervecero@cervecero.com" },
-    { id: 6, nombre: "cliente", clave: "cliente123", email: "cliente@cliente.com" },
-    { id: 7, nombre: "clienteDos", clave: "cliente123", email: "clienteDos@clienteDos.com" },
-    { id: 8, nombre: "clienteTres", clave: "cliente123", email: "clienteTres@clienteTres.com" },
+    { id: 5, nombre: "cliente", clave: "cliente123", email: "cliente@cliente.com" },
+    { id: 6, nombre: "clienteDos", clave: "cliente123", email: "clienteDos@clienteDos.com" },
+    { id: 7, nombre: "clienteTres", clave: "cliente123", email: "clienteTres@clienteTres.com" },
   ]
   email: string;
   clave: string;

@@ -36,16 +36,15 @@
         </mat-grid-tile>
 
         <mat-grid-tile colspan="3" rowspan="1" style="background:#616161;">
-                <h2>Seleccione su mesa</h2>
+                <h2>Estado de mesas del salón</h2>
         </mat-grid-tile>
 
         <mat-grid-tile colspan="3" rowspan="3" style="background:#616161">
-            <!-- <span *ngFor="let mesa of mesas" [class]="mesa.estado!='cerrada'?'mesa-ocupada':'mesa-disponible'"
-                (click)="tomarMesa(mesa)">
+            <span *ngFor="let mesa of mesas" [class]="mesa.estado!='libre'?'mesa-ocupada':'mesa-disponible'">
                 <img class="img-mesa" [src]="mesa.foto" alt="">
-                <span class="codigo-mesa">{{mesa.codigo}}</span>
-                <span class="estado-mesa">{{mesa.estado!='cerrada'?'Ocupada':'Disponible'}}</span>
-            </span> -->
+                <span class="codigo-mesa">{{mesa.nombre}}</span>
+                <span class="estado-mesa">{{mesa.estado!='libre'?'Ocupada':'Disponible'}}</span>
+            </span>
         </mat-grid-tile>
 
     </mat-grid-list>

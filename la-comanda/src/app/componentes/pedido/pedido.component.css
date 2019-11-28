@@ -8,8 +8,8 @@ table {
     margin-top: 70px;
   }
 
-  .form-container{
-    
+  mat-list-item{
+    margin-bottom: 1em;
   }
 
 .example-container > * > * {
@@ -17,7 +17,7 @@ table {
 }
 
 .example-card {
-  max-width: 400px;
+  width: 90%;
 }
 
 .registro-card{
@@ -34,4 +34,22 @@ table {
 
 .card-content{
     margin-top: 50px;
+}
+
+.center-cell{
+  text-align: center;
+  margin-left: 50%;
+}
+
+.input-cant{
+  width: 50%;
+}
+
+.btn{
+  margin-left: 20px;
+}
+
+.align-right{
+  position: absolute;
+  right: 14px;
 }
