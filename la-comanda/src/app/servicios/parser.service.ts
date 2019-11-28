@@ -17,6 +17,13 @@ export class ParserService {
     return stringFecha;
   }
 
+  public parseDateTimeToStringHora(date: Date) {
+    const hora = date.getHours();
+    const minutos = date.getMinutes();
+    const stringHora: string = hora + ':' + minutos;
+    return stringHora;
+  }
+
   public parseStringDateToDateTime(stringDate: string) {
     const fecha = stringDate.split('/', stringDate.length);
     const dia = parseInt(fecha[0], 10);

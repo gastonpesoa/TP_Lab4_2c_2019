@@ -39,6 +39,7 @@ mat-grid-tile{
 mat-card{
     position: absolute;
     top: 88px;
+    width: 100%;
 }
 
 .align-right{

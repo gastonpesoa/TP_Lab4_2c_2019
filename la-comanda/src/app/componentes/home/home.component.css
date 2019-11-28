@@ -2,9 +2,13 @@
     margin-top: 1em;
 }
 
+.cuadro-mesa{
+    width: 160px;
+}
+
 .mesa-ocupada{
     border-radius: 10px;
-    margin-right: 3.5em;
+    margin-right: 2em;
     padding: 0 1.5em .3em 0;
     margin-left: 1em;
     background: #ff6e40;
@@ -18,7 +22,7 @@
 
 .mesa-disponible{
     border-radius: 10px;
-    margin-right: 3.5em;
+    margin-right: 2em;
     margin-left: 1em;
     padding: 0 1.5em .3em 0;
     background: #69f0ae;
@@ -37,7 +41,7 @@
     
     position: relative;
     bottom: 204px;
-    left: 146.5px;
+    left: 90px;
     background: #ccc;
     padding: 5px 26px;
 }
@@ -47,7 +51,7 @@
     font-weight: 700;
     position: relative;
     bottom: 30px;
-    left: 50px;
+    left: 10px;
     background: #ccc;
     padding: 5px;
     border-radius: 13px;

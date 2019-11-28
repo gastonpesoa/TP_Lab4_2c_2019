@@ -31,6 +31,7 @@ export class HomeComponent implements OnInit {
   ngOnInit() {
     return this.mesaServ.getMesas().subscribe(res => {
       console.info('mesas', res);
+      res.sort(function(a, b){return a.numero-b.numero})
       this.mesas = res
     })
   }

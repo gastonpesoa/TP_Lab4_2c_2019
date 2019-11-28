@@ -165,6 +165,15 @@ export class HomeClienteComponent implements OnInit {
 
         this.spinnerServ.hideLoadingSpinner();
         return;
+      } else {
+        console.log("cli no tiene mesa ni pedido")
+        console.log("this.flagEstaActivo", this.flagEstaActivo)
+
+        this.puedeSolicitarMesa = false;
+        this.puedeGenerarPedido = false;
+        this.puedeVerPedidoORealizarEncuesta = false;
+        this.esperandoAsignacion = false;
+
       }
     });
 
@@ -182,6 +191,7 @@ export class HomeClienteComponent implements OnInit {
           this.puedeSolicitarMesa = true;
           this.puedeVerPedidoORealizarEncuesta = false;
           this.esperandoAsignacion = false;
+          this.flagEstaActivo = false;
         }
         this.spinnerServ.hideLoadingSpinner();
         return;
@@ -239,7 +249,7 @@ export class HomeClienteComponent implements OnInit {
     this.router.navigate(['/pedido'], navigationExtras);
   }
 
-  encuesta(){
+  encuesta() {
     this.puedeHacerEncuesta = false;
     this.router.navigate(['encuesta']);
   }
@@ -265,8 +275,8 @@ export class HomeClienteComponent implements OnInit {
       estado: diccionario.estados_pedidos.cuenta
     }).then(() => {
       this.cuentaSolicitada = true;
+      this.pedidoUser = null;
       // this.mesa = null;
-      // this.pedidoUser = null;
       // this.puedeSolicitarMesa = true;
       // this.puedeVerPedidoORealizarEncuesta = false;
       // this.esperandoAsignacion = false;

@@ -40,7 +40,7 @@
         </mat-grid-tile>
 
         <mat-grid-tile colspan="3" rowspan="3" style="background:#616161">
-            <span *ngFor="let mesa of mesas" [class]="mesa.estado!='libre'?'mesa-ocupada':'mesa-disponible'">
+            <span *ngFor="let mesa of mesas" [class]="mesa.estado!='libre'?'mesa-ocupada cuadro-mesa':'mesa-disponible cuadro-mesa'">
                 <img class="img-mesa" [src]="mesa.foto" alt="">
                 <span class="codigo-mesa">{{mesa.nombre}}</span>
                 <span class="estado-mesa">{{mesa.estado!='libre'?'Ocupada':'Disponible'}}</span>

@@ -20,9 +20,11 @@
                 <mat-card-content class="card-content">
                     <div class="example-container">
                         <mat-list>
-                            <mat-list-item *ngFor="let prod of pedidoUser[0].productoPedido">
+                            <mat-list-item *ngFor="let prod of pedidoUser[0].productoPedido" style="margin-bottom: 20px;">
                                 <span> {{prod.cantidad}}x {{prod.nombre}} <br />
-                                    <b style="color:#69f0ae;"> {{prod.precio * prod.cantidad | currency}}</b></span>
+                                    <b style="color:#69f0ae;"> {{prod.precio * prod.cantidad | currency}}</b><br />
+                                    {{prod.tiempoElaboracion}} minutos<br />
+                                </span>
                             </mat-list-item>
                             <mat-divider></mat-divider>
                             <mat-list-item class="subtotal-item">
@@ -85,6 +87,7 @@
                 <div *ngIf="puedeVerPedidoORealizarEncuesta&&pedidoUser[0].estado!='entregado por el mozo'&&pedidoUser[0].estado!='entregado'&&pedidoUser[0].estado!='cuenta'&&pedidoUser[0].estado!='cerrado'">
                     <p>Tu pedido se encuntra <b style="color:#69f0ae;">{{pedidoUser[0].estado}}</b>, podés realizar una
                         encuesta de satisfacción.</p>
+                        <div *ngIf="pedidoUser[0].horaEntrega">Hora de entrega: {{pedidoUser[0].horaEntrega}}</div><br/>
                     <button *ngIf="puedeHacerEncuesta" mat-raised-button color="accent" (click)="encuesta()">Hacer Encuesta</button>
                 </div>
                 <div *ngIf="pedidoUser[0].estado=='entregado por el mozo'">

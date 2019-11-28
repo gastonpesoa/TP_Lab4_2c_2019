@@ -4,6 +4,7 @@ import { SpinnerService } from 'src/app/servicios/spinner.service';
 import { FirebaseService } from 'src/app/servicios/firebase.service';
 import { diccionario } from 'src/app/clases/diccionario';
 import { AuthService } from 'src/app/servicios/auth.service';
+import { ParserService } from 'src/app/servicios/parser.service';
 
 @Component({
   selector: 'app-lista-pedidos-barra',
@@ -17,6 +18,7 @@ export class ListaPedidosBarraComponent implements OnInit {
   usuario: any;
 
   constructor(
+    private parserServ: ParserService,
     private authServ: AuthService,
     private snackBar: SnackbarService,
     private spinnerServ: SpinnerService,
@@ -59,9 +61,50 @@ export class ListaPedidosBarraComponent implements OnInit {
       estado: diccionario.estados_pedidos.en_preparacion,
       estadoBarman: diccionario.estados_pedidos.en_preparacion
     }).then(() => {
+      pedido.estadoBarman = diccionario.estados_pedidos.en_preparacion
+      this.verificarEnPreparacion(pedido);
       this.spinnerServ.hideLoadingSpinner();
       this.snackBar.openSnackBar("Pedido tomado", "Cerrar")
     });
+  }
+
+  verificarEnPreparacion(pedido: any) {
+    console.log("pedido a verificar", pedido);
+    console.log("tiene pedi en cocina", this.tieneProductosDeTipo(pedido, "cocina"))
+    if ((this.tieneProductosDeTipo(pedido, "cocina") && pedido.estadoCocinero == diccionario.estados_pedidos.en_preparacion) ||
+      (!this.tieneProductosDeTipo(pedido, "cocina"))) {
+      console.log("esta en preparacion por todos", pedido)
+      var horaEntrega = this.getHoraEntrega(pedido);
+      console.log("fechaEntregaString", horaEntrega)
+      this.fireServ.actualizar("pedidos", pedido.id, {
+        horaEntrega: horaEntrega
+      });
+    } else {
+      console.log("no esta en preparacion por todos", pedido)
+    }
+  }
+
+  getHoraEntrega(pedido: any) {
+    var oldDateObj = new Date();
+    let tiempoElaboracion = this.getTiempoMax(pedido);
+    console.log("tiempoElaboracion max", tiempoElaboracion)
+    var newDateObj = new Date(oldDateObj.getTime() + tiempoElaboracion * 60000);
+    return this.parserServ.parseDateTimeToStringHora(newDateObj)
+  }
+
+  getTiempoMax(pedido) {
+    var tiempoMax;
+    for (let index = 0; index < pedido.productoPedido.length; index++) {
+      const element = pedido.productoPedido[index];
+      if (index == 0) {
+        tiempoMax = element.tiempoElaboracion;
+      } else {
+        if (element.tiempoElaboracion > tiempoMax) {
+          tiempoMax = element.tiempoElaboracion;
+        }
+      }
+    }
+    return tiempoMax;
   }
 
   entregar(pedido) {
@@ -69,7 +112,7 @@ export class ListaPedidosBarraComponent implements OnInit {
     this.fireServ.actualizar("pedidos", pedido.id, {
       estadoBarman: diccionario.estados_pedidos.listo
     }).then(() => {
-      pedido.estadoBartender = diccionario.estados_pedidos.listo;
+      pedido.estadoBarman = diccionario.estados_pedidos.listo;
       this.verificarPedidoListo(pedido);
       this.spinnerServ.hideLoadingSpinner();
       this.snackBar.openSnackBar("Pedido entregado", "Cerrar")
@@ -81,26 +124,26 @@ export class ListaPedidosBarraComponent implements OnInit {
     // console.log("tieneProductos cocina", this.tieneProductosDeTipo(pedido, "cocina"))
     // console.log("tieneProductos barra", this.tieneProductosDeTipo(pedido, "barra"))
     if (
-      (pedido.estadoBartender == diccionario.estados_pedidos.listo &&
+      (pedido.estadoBarman == diccionario.estados_pedidos.listo &&
         pedido.estadoCocinero == diccionario.estados_pedidos.listo) ||
-      (pedido.estadoBartender == diccionario.estados_pedidos.listo &&
+      (pedido.estadoBarman == diccionario.estados_pedidos.listo &&
         !this.tieneProductosDeTipo(pedido, "cocina")) ||
       (pedido.estadoCocinero == diccionario.estados_pedidos.listo &&
         !this.tieneProductosDeTipo(pedido, "barra"))
     ) {
-      // console.log("esta listo de todos", pedido)
+      console.log("esta listo de todos", pedido)
       this.fireServ.actualizar("pedidos", pedido.id, {
         estado: diccionario.estados_pedidos.listo
       });
     } else {
-      // console.log("no listo por todos", pedido)
+      console.log("no listo por todos", pedido)
     }
   }
 
   tieneProductosDeTipo(pedido, tipo) {
     let result = false;
     pedido.productoPedido.forEach(element => {
-      if(element.tipo == tipo){
+      if (element.tipo == tipo) {
         result = true
       }
     });
