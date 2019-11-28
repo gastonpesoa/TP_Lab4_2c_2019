@@ -5,7 +5,7 @@
 <b>Descripción:</b>
 
 <p>
-   Sistema de servicio de pedidos para restaurante, con cuatro sectores bien diferenciados: 
+   Sistema de servicio de pedidos para restaurante, con dos sectores bien diferenciados: 
 </p>   
 <ul>
    <li>la barra de tragos y vinos</li>
